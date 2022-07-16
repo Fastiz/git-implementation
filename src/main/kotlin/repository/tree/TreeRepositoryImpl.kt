@@ -2,13 +2,21 @@ package repository.tree
 
 import model.FileBlob
 import model.Tree
+import repository.blobRepository.BlobRepository
+import repository.blobRepository.BlobRepositoryImpl
+import repository.tree.TreeContentFormatter.formatTreeContent
+import repository.tree.TreeContentFormatter.mapTreeFromBlob
 
-class TreeRepositoryImpl : TreeRepository {
+class TreeRepositoryImpl(private val blobRepository: BlobRepository = BlobRepositoryImpl()) : TreeRepository {
     override fun create(fileBlobList: List<FileBlob>): Hash {
-        TODO("Not yet implemented")
+        val content = formatTreeContent(fileBlobList)
+
+        return blobRepository.createFromString(content)
     }
 
     override fun get(treeId: Hash): Tree {
-        TODO("Not yet implemented")
+        val blob = blobRepository.get(treeId)
+
+        return mapTreeFromBlob(treeId, blob)
     }
 }
