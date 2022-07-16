@@ -2,8 +2,8 @@ package service.commit
 
 import model.FileBlob
 import model.overrideWith
-import repository.blobRepository.BlobRepository
-import repository.blobRepository.BlobRepositoryImpl
+import repository.blobRepository.FileBlobRepository
+import repository.blobRepository.FileBlobRepositoryImpl
 import repository.commit.CommitRepository
 import repository.commit.CommitRepositoryImpl
 import repository.refs.RefRepository
@@ -13,18 +13,18 @@ import repository.tree.TreeRepositoryImpl
 
 typealias Path = String
 
-class CommitImpl(
+class CommitServiceImpl(
     private val treeRepository: TreeRepository = TreeRepositoryImpl(),
     private val commitRepository: CommitRepository = CommitRepositoryImpl(),
     private val refRepository: RefRepository = RefRepositoryImpl(),
-    private val blobRepository: BlobRepository = BlobRepositoryImpl()
+    private val fileBlobRepository: FileBlobRepository = FileBlobRepositoryImpl()
 ) : CommitService {
 
     override fun run(stagedFiles: List<Path>) {
         val head = refRepository.getHead()
 
         val fileBlobList = stagedFiles.map {
-            val id = blobRepository.createFromFile(it)
+            val id = fileBlobRepository.create(it)
 
             FileBlob(id = id, path = it)
         }

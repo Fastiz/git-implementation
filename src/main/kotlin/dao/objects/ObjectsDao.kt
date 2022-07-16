@@ -1,9 +1,9 @@
-package repository.blobRepository
+package dao.objects
 
 typealias Path = String
 typealias Hash = String
 
-interface BlobRepository {
+interface ObjectsDao {
     fun createFromString(content: String): Hash
 
     fun createFromFile(path: Path): Hash

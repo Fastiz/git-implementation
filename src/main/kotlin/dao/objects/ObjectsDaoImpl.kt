@@ -1,6 +1,6 @@
-package repository.blobRepository
+package dao.objects
 
-class BlobRepositoryImpl : BlobRepository {
+class ObjectsDaoImpl : ObjectsDao {
     override fun createFromString(content: String): Hash {
         TODO("Not yet implemented")
     }
