@@ -1,6 +1,6 @@
-package command.commandRunner
+package controller.commandRunner
 
-import command.commit.Commit
+import service.commit.CommitService
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Test
 
 class CommandRunnerImplTestTest {
-    lateinit var commit: Commit
+    lateinit var commit: CommitService
     lateinit var commandRunnerImpl: CommandRunnerImpl
 
     @Before

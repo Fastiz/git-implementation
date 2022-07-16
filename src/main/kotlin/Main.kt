@@ -1,5 +1,5 @@
-import command.commandRunner.CommandRunner
-import command.commandRunner.CommandRunnerImpl
+import controller.commandRunner.CommandRunner
+import controller.commandRunner.CommandRunnerImpl
 
 fun main(args: Array<String>) {
     Main().run(args)

@@ -1,4 +1,4 @@
-import command.commandRunner.CommandRunner
+import controller.commandRunner.CommandRunner
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk

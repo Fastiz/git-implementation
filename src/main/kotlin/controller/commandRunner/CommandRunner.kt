@@ -1,4 +1,4 @@
-package command.commandRunner
+package controller.commandRunner
 
 interface CommandRunner {
     fun runCommit(args: Array<String>)
