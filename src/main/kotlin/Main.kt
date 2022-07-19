@@ -13,6 +13,7 @@ class Main(private val commandRunner: CommandRunner = CommandRunnerImpl()) {
 
         when (val commandName = args[0]) {
             "commit" -> commandRunner.runCommit(args)
+            "init" -> commandRunner.runInit()
             else -> throw Exception("There is not command named $commandName")
         }
     }
