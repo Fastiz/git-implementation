@@ -1,5 +1,7 @@
 package repository.commit
 
+import model.Commit
+
 typealias Hash = String
 
 interface CommitRepository {
@@ -8,4 +10,6 @@ interface CommitRepository {
         parentId: String,
         message: String
     ): Hash
+
+    fun get(commit: Hash): Commit
 }

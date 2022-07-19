@@ -1,7 +1,7 @@
 package repository.tree
 
-import dao.objects.ObjectsDao
-import dao.objects.ObjectsDaoImpl
+import dao.objects.objects.ObjectsDao
+import dao.objects.objects.ObjectsDaoImpl
 import model.FileBlob
 import model.Tree
 import repository.tree.TreeContentFormatter.formatTreeContent

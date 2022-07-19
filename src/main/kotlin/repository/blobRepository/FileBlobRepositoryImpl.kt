@@ -1,12 +1,18 @@
 package repository.blobRepository
 
-import dao.objects.ObjectsDao
-import dao.objects.ObjectsDaoImpl
+import dao.objects.objects.ObjectsDao
+import dao.objects.objects.ObjectsDaoImpl
+import java.io.File
 
 class FileBlobRepositoryImpl(
-    val objectsDao: ObjectsDao = ObjectsDaoImpl()
+    private val objectsDao: ObjectsDao = ObjectsDaoImpl()
 ) : FileBlobRepository {
     override fun create(path: Path): Hash {
-        TODO("Not yet implemented")
+        val inputStream = File(path).inputStream()
+        val sb = StringBuilder()
+
+        inputStream.bufferedReader().forEachLine { sb.append(it) }
+
+        return objectsDao.createFromString(sb.toString())
     }
 }

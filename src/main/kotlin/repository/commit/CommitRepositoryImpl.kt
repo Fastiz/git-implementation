@@ -1,7 +1,8 @@
 package repository.commit
 
-import dao.objects.ObjectsDao
-import dao.objects.ObjectsDaoImpl
+import dao.objects.objects.ObjectsDao
+import dao.objects.objects.ObjectsDaoImpl
+import model.Commit
 import repository.commit.CommitContentFormatter.formatCommitMessage
 
 class CommitRepositoryImpl(private val objectsDao: ObjectsDao = ObjectsDaoImpl()) : CommitRepository {
@@ -9,5 +10,17 @@ class CommitRepositoryImpl(private val objectsDao: ObjectsDao = ObjectsDaoImpl()
         val content = formatCommitMessage(treeId, parentId, message)
 
         return objectsDao.createFromString(content)
+    }
+
+    override fun get(commit: Hash): Commit {
+        // TODO: read
+        objectsDao.get(commit)
+
+        return Commit(
+            id = commit,
+            message = "",
+            parentId = "",
+            treeId = ""
+        )
     }
 }
