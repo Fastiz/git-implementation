@@ -4,5 +4,5 @@ typealias Path = String
 typealias Hash = String
 
 interface FileBlobRepository {
-    fun create(path: Path): Hash
+    fun createIfNotExists(path: Path): Hash
 }

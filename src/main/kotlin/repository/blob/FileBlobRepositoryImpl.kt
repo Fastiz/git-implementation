@@ -9,7 +9,7 @@ class FileBlobRepositoryImpl(
     private val fileDao: FileDao = FileDaoImpl(),
     private val objectsDao: ObjectsDao = ObjectsDaoImpl()
 ) : FileBlobRepository {
-    override fun create(path: Path): Hash {
+    override fun createIfNotExists(path: Path): Hash {
         val lines = fileDao.readFile(path) {
             generateSequence { readLine() }
         }
