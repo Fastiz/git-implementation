@@ -11,5 +11,5 @@ interface CommitRepository {
         message: String
     ): Hash
 
-    fun get(commit: Hash): Commit
+    fun get(commitId: Hash): Commit
 }
