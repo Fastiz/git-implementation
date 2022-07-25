@@ -1,4 +1,4 @@
-package repository.refs
+package repository.head
 
 typealias Hash = String
 

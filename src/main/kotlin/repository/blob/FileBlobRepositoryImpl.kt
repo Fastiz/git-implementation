@@ -1,4 +1,4 @@
-package repository.blobRepository
+package repository.blob
 
 import dao.objects.objects.ObjectsDao
 import dao.objects.objects.ObjectsDaoImpl

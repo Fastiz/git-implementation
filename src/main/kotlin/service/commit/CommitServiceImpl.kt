@@ -2,12 +2,12 @@ package service.commit
 
 import model.FileBlob
 import model.overrideWith
-import repository.blobRepository.FileBlobRepository
-import repository.blobRepository.FileBlobRepositoryImpl
+import repository.blob.FileBlobRepository
+import repository.blob.FileBlobRepositoryImpl
 import repository.commit.CommitRepository
 import repository.commit.CommitRepositoryImpl
-import repository.refs.HeadRepository
-import repository.refs.HeadRepositoryImpl
+import repository.head.HeadRepository
+import repository.head.HeadRepositoryImpl
 import repository.tree.TreeRepository
 import repository.tree.TreeRepositoryImpl
 

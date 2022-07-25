@@ -1,4 +1,4 @@
-package repository.refs
+package repository.head
 
 import dao.objects.head.HeadDao
 import dao.objects.head.HeadDaoImpl

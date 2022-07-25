@@ -1,4 +1,4 @@
-package repository.blobRepository
+package repository.blob
 
 typealias Path = String
 typealias Hash = String
