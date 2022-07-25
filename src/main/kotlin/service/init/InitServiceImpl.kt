@@ -1,11 +1,10 @@
 package service.init
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import dao.objects.files.FileDao
+import dao.objects.files.FileDaoImpl
 
-class InitServiceImpl : InitService {
-    override fun run(){
-        Files.createDirectories(Paths.get(".git-fastiz/objects"))
-        Files.createDirectories(Paths.get(".git-fastiz/refs"))
+class InitServiceImpl(private val fileDao: FileDao = FileDaoImpl()) : InitService {
+    override fun run() {
+        fileDao.createDirectory(".git-fastiz/objects")
     }
 }

@@ -1,20 +1,25 @@
 package dao.objects.head
 
-import java.io.File
+import dao.objects.files.FileDao
+import dao.objects.files.FileDaoImpl
 
 typealias Hash = String
 
-class HeadDaoImpl : HeadDao {
+class NoHeadException : RuntimeException()
+
+class HeadDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : HeadDao {
     override fun getHead(): Hash {
-        val inputStream = File(HEAD_PATH).inputStream()
+        val line = fileDao.readFile(HEAD_PATH) {
+            readLine() ?: throw NoHeadException()
+        }
 
-        val line = inputStream.bufferedReader().lines().findFirst().orElseThrow { Exception("could not read HEAD") }
-
-        return line.replace("ref: ", "")
+        return line.substringAfter("ref: ")
     }
 
     override fun setHead(commitId: String) {
-        File(HEAD_PATH).printWriter().use { }
+        fileDao.writeFile(HEAD_PATH) {
+            write(commitId)
+        }
     }
 
     companion object {
