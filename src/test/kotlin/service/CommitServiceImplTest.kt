@@ -5,7 +5,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
-import model.buildTree
+import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
 import service.commit.CommitServiceImpl
