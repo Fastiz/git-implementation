@@ -8,20 +8,24 @@ import io.mockk.runs
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
+import service.checkout.CheckoutService
 import service.init.InitService
 
 class CommandRunnerImplTest {
     private lateinit var commitService: CommitService
     private lateinit var initService: InitService
+    private lateinit var checkoutService: CheckoutService
     private lateinit var commandRunnerImpl: CommandRunnerImpl
 
     @Before
     fun before(){
         commitService = mockk()
         initService = mockk()
+        checkoutService = mockk()
         commandRunnerImpl = CommandRunnerImpl(
             commitService = commitService,
-            initService = initService
+            initService = initService,
+            checkoutService = checkoutService
         )
     }
 
@@ -31,7 +35,7 @@ class CommandRunnerImplTest {
 
         every { commitService.run(any()) } just runs
 
-        commandRunnerImpl.runCommit(args)
+        commandRunnerImpl.commit(args)
 
         verify { commitService.run(listOf("a", "b")) }
     }
@@ -40,8 +44,17 @@ class CommandRunnerImplTest {
     fun `calls init service`(){
         every { initService.run() } just runs
 
-        commandRunnerImpl.runInit()
+        commandRunnerImpl.init()
 
         verify { initService.run() }
+    }
+
+    @Test
+    fun `calls checkout service`(){
+        every { checkoutService.run(any()) } just runs
+
+        commandRunnerImpl.checkout(listOf("checkout", "commit-id").toTypedArray())
+
+        verify { checkoutService.run("commit-id") }
     }
 }

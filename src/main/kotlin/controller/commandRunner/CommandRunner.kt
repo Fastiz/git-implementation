@@ -1,7 +1,9 @@
 package controller.commandRunner
 
 interface CommandRunner {
-    fun runCommit(args: Array<String>)
+    fun commit(args: Array<String>)
 
-    fun runInit()
+    fun init()
+
+    fun checkout(args: Array<String>)
 }

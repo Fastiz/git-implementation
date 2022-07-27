@@ -1,5 +1,7 @@
 package controller.commandRunner
 
+import service.checkout.CheckoutService
+import service.checkout.CheckoutServiceImpl
 import service.commit.CommitService
 import service.commit.CommitServiceImpl
 import service.init.InitService
@@ -7,15 +9,22 @@ import service.init.InitServiceImpl
 
 class CommandRunnerImpl(
     private val commitService: CommitService = CommitServiceImpl(),
-    private val initService: InitService = InitServiceImpl()
+    private val initService: InitService = InitServiceImpl(),
+    private val checkoutService: CheckoutService = CheckoutServiceImpl(),
 ) : CommandRunner {
-    override fun runCommit(args: Array<String>) {
+    override fun commit(args: Array<String>) {
         val parameters = args.toList().drop(1)
 
         commitService.run(parameters)
     }
 
-    override fun runInit() {
+    override fun init() {
         initService.run()
+    }
+
+    override fun checkout(args: Array<String>) {
+        val id = args.drop(1)[0]
+
+        checkoutService.run(id)
     }
 }

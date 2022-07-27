@@ -18,7 +18,6 @@ class MainTest {
         main = Main(commandRunner)
     }
 
-
     @Test
     fun `if the command doesn't exist then throw`() {
         val args = listOf("invalid")
@@ -33,10 +32,32 @@ class MainTest {
     fun `call run commit`() {
         val args = listOf("commit", "a", "b").toTypedArray()
 
-        every { commandRunner.runCommit(any()) } just runs
+        every { commandRunner.commit(any()) } just runs
 
         main.run(args)
 
-        verify { commandRunner.runCommit(args) }
+        verify { commandRunner.commit(args) }
+    }
+
+    @Test
+    fun `call run init`() {
+        val args = listOf("init").toTypedArray()
+
+        every { commandRunner.init() } just runs
+
+        main.run(args)
+
+        verify { commandRunner.init() }
+    }
+
+    @Test
+    fun `call run checkout`() {
+        val args = listOf("checkout", "commit-id").toTypedArray()
+
+        every { commandRunner.checkout(any()) } just runs
+
+        main.run(args)
+
+        verify { commandRunner.checkout(args) }
     }
 }
