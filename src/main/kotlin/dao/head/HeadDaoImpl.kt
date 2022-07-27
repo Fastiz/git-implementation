@@ -1,7 +1,7 @@
-package dao.objects.head
+package dao.head
 
-import dao.objects.files.FileDao
-import dao.objects.files.FileDaoImpl
+import dao.files.FileDao
+import dao.files.FileDaoImpl
 import model.File
 
 class NoHeadException : RuntimeException()

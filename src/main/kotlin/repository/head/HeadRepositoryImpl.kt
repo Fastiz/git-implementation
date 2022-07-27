@@ -1,7 +1,7 @@
 package repository.head
 
-import dao.objects.head.HeadDao
-import dao.objects.head.HeadDaoImpl
+import dao.head.HeadDao
+import dao.head.HeadDaoImpl
 
 class HeadRepositoryImpl(private val headDao: HeadDao = HeadDaoImpl()) : HeadRepository {
     override fun getHead(): Hash {

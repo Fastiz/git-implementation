@@ -1,8 +1,8 @@
 package repository.blob
 
-import dao.objects.files.FileDao
-import dao.objects.files.Reader
-import dao.objects.objects.ObjectsDao
+import dao.files.FileDao
+import dao.files.Reader
+import dao.objects.ObjectsDao
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

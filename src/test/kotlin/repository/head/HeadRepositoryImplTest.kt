@@ -1,6 +1,6 @@
 package repository.head
 
-import dao.objects.head.HeadDao
+import dao.head.HeadDao
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before

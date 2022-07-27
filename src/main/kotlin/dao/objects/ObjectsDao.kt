@@ -1,4 +1,4 @@
-package dao.objects.objects
+package dao.objects
 
 typealias Hash = String
 

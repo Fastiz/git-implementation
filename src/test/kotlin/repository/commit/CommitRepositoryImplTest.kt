@@ -1,6 +1,6 @@
 package repository.commit
 
-import dao.objects.objects.ObjectsDao
+import dao.objects.ObjectsDao
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

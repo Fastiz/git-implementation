@@ -1,4 +1,4 @@
-package dao.objects.files
+package dao.files
 
 interface Writer {
     fun write(content: String)

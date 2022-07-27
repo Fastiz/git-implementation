@@ -1,4 +1,4 @@
-package dao.objects.files
+package dao.files
 
 class FileDaoImpl : FileDao {
     override fun createDirectory(path: String) {

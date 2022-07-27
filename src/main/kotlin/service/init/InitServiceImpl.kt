@@ -1,7 +1,7 @@
 package service.init
 
-import dao.objects.files.FileDao
-import dao.objects.files.FileDaoImpl
+import dao.files.FileDao
+import dao.files.FileDaoImpl
 import model.Directory
 
 class InitServiceImpl(private val fileDao: FileDao = FileDaoImpl()) : InitService {

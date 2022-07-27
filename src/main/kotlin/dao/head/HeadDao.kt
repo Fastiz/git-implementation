@@ -1,4 +1,4 @@
-package dao.objects.head
+package dao.head
 
 interface HeadDao {
     fun getHead(): String

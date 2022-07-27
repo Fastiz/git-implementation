@@ -1,6 +1,6 @@
 package service.init
 
-import dao.objects.files.FileDao
+import dao.files.FileDao
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk

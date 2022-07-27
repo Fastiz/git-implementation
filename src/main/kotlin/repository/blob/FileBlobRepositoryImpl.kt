@@ -1,9 +1,9 @@
 package repository.blob
 
-import dao.objects.files.FileDao
-import dao.objects.files.FileDaoImpl
-import dao.objects.objects.ObjectsDao
-import dao.objects.objects.ObjectsDaoImpl
+import dao.files.FileDao
+import dao.files.FileDaoImpl
+import dao.objects.ObjectsDao
+import dao.objects.ObjectsDaoImpl
 
 class FileBlobRepositoryImpl(
     private val fileDao: FileDao = FileDaoImpl(),

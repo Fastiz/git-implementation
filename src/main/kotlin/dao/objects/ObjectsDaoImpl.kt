@@ -1,7 +1,7 @@
-package dao.objects.objects
+package dao.objects
 
-import dao.objects.files.FileDao
-import dao.objects.files.FileDaoImpl
+import dao.files.FileDao
+import dao.files.FileDaoImpl
 import model.Directory
 import model.extendPath
 import java.security.MessageDigest

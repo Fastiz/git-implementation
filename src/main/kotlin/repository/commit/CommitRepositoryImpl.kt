@@ -1,7 +1,7 @@
 package repository.commit
 
-import dao.objects.objects.ObjectsDao
-import dao.objects.objects.ObjectsDaoImpl
+import dao.objects.ObjectsDao
+import dao.objects.ObjectsDaoImpl
 import model.Commit
 import repository.commit.CommitContentFormatter.formatCommitMessage
 import repository.commit.CommitContentFormatter.parseCommitMessage

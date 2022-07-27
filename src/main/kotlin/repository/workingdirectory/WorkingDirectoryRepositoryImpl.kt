@@ -1,7 +1,7 @@
 package repository.workingdirectory
 
-import dao.objects.files.FileDao
-import dao.objects.files.FileDaoImpl
+import dao.files.FileDao
+import dao.files.FileDaoImpl
 import model.Directory
 import model.FileBlob
 import model.extendPath
