@@ -8,7 +8,7 @@ object TreeContentFormatter {
         val sb = StringBuilder()
 
         fileBlobList.forEach {
-            sb.appendLine("blob ${it.id} ${it.path}}")
+            sb.appendLine("blob ${it.id} ${it.path}")
         }
 
         return sb.toString()
@@ -17,8 +17,12 @@ object TreeContentFormatter {
     fun mapTreeFromBlob(id: String, blob: String): Tree {
         val lines = blob.split("\n")
 
-        val fileBlobList = lines.map {
+        val fileBlobList = lines.mapNotNull {
             val values = it.split(" ")
+
+            if(values.size != 3) {
+                return@mapNotNull null
+            }
 
             FileBlob(
                 id = values[1],
