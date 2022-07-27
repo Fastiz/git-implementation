@@ -25,6 +25,6 @@ class InitServiceImplTest {
 
         initServiceImpl.run()
 
-        verify { fileDao.createDirectory(".git-fastiz/objects") }
+        verify { fileDao.createDirectory("/.fastiz-git/objects") }
     }
 }

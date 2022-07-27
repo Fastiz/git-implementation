@@ -18,4 +18,6 @@ interface FileDao {
     fun <T> readFile(path: String, executor: Reader.() -> T): T
 
     fun copyFile(origin: String, target: String)
+
+    fun removeAllExcluding(directory: String, excluding: List<String>)
 }

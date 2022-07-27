@@ -20,4 +20,8 @@ class FileDaoImpl : FileDao {
     override fun copyFile(origin: String, target: String) {
         TODO("Not yet implemented")
     }
+
+    override fun removeAllExcluding(directory: String, excluding: List<String>) {
+        TODO("Not yet implemented")
+    }
 }
