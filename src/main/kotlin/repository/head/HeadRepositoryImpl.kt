@@ -5,7 +5,9 @@ import dao.objects.head.HeadDaoImpl
 
 class HeadRepositoryImpl(private val headDao: HeadDao = HeadDaoImpl()) : HeadRepository {
     override fun getHead(): Hash {
-        return headDao.getHead()
+        val content = headDao.getHead()
+
+        return content.substringAfter("ref: ")
     }
 
     override fun setHead(commitId: String) {

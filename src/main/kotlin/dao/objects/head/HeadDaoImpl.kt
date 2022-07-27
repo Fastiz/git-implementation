@@ -3,17 +3,15 @@ package dao.objects.head
 import dao.objects.files.FileDao
 import dao.objects.files.FileDaoImpl
 
-typealias Hash = String
-
 class NoHeadException : RuntimeException()
 
 class HeadDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : HeadDao {
-    override fun getHead(): Hash {
+    override fun getHead(): String {
         val line = fileDao.readFile(HEAD_PATH) {
             readLine() ?: throw NoHeadException()
         }
 
-        return line.substringAfter("ref: ")
+        return line
     }
 
     override fun setHead(commitId: String) {
