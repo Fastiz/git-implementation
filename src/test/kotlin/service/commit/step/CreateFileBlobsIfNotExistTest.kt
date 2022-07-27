@@ -1,4 +1,4 @@
-package service.step
+package service.commit.step
 
 import io.mockk.every
 import io.mockk.mockk
@@ -12,8 +12,6 @@ import repository.blob.FileBlobRepository
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 import repository.tree.TreeRepository
-import service.commit.step.CreateFileBlobsIfNotExist
-import service.commit.step.CreateFileBlobsIfNotExistInput
 import kotlin.test.assertEquals
 
 class CreateFileBlobsIfNotExistTest {

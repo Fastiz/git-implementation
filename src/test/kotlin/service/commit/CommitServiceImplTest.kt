@@ -1,4 +1,4 @@
-package service
+package service.commit
 
 import io.mockk.every
 import io.mockk.just
@@ -8,7 +8,6 @@ import io.mockk.verify
 import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
-import service.commit.CommitServiceImpl
 import service.commit.step.CreateCommit
 import service.commit.step.CreateCommitOutput
 import service.commit.step.CreateFileBlobsIfNotExist

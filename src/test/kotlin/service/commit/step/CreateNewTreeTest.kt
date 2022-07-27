@@ -1,4 +1,4 @@
-package service.step
+package service.commit.step
 
 import io.mockk.every
 import io.mockk.mockk
@@ -8,8 +8,6 @@ import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
 import repository.tree.TreeRepository
-import service.commit.step.CreateFileBlobsIfNotExistOutput
-import service.commit.step.CreateNewTree
 import kotlin.test.assertEquals
 
 class CreateNewTreeTest {

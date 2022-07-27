@@ -1,4 +1,4 @@
-package service.step
+package service.commit.step
 
 import io.mockk.every
 import io.mockk.just
@@ -8,8 +8,6 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import repository.head.HeadRepository
-import service.commit.step.CreateCommitOutput
-import service.commit.step.MoveHead
 
 class MoveHeadTest {
     private lateinit var headRepository: HeadRepository

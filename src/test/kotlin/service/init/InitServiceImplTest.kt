@@ -1,4 +1,4 @@
-package service
+package service.init
 
 import dao.objects.files.FileDao
 import io.mockk.every
@@ -8,7 +8,6 @@ import io.mockk.runs
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
-import service.init.InitServiceImpl
 
 class InitServiceImplTest {
     private lateinit var fileDao: FileDao

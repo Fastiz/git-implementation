@@ -1,4 +1,4 @@
-package service.step
+package service.commit.step
 
 import io.mockk.every
 import io.mockk.mockk
@@ -6,8 +6,6 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import repository.commit.CommitRepository
-import service.commit.step.CreateCommit
-import service.commit.step.OutputCreateNewTree
 import kotlin.test.assertEquals
 
 class CreateCommitTest {
