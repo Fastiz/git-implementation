@@ -15,7 +15,7 @@ object CommitContentFormatter {
         sb.appendLine("tree $treeId")
         sb.appendLine("parent $parentIdText")
         sb.appendLine()
-        sb.append(message)
+        sb.appendLine(message)
 
         return sb.toString()
     }

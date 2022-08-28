@@ -1,5 +1,6 @@
 package dao.files
 
+import model.Directory
 import java.io.IOException
 import java.nio.file.FileVisitResult
 import java.nio.file.Files
@@ -17,12 +18,24 @@ class DeleteFilesExcludingVisitor(private val excludingPaths: Collection<Path>) 
     }
 
     override fun postVisitDirectory(dir: Path, exc: IOException?): FileVisitResult {
-        val isContainsExcludedFile = excludingPaths.none { dir.contains(it) }
+        val containsExcludedFile = excludingPaths.any { dir.contains(it) }
 
-        if (!isContainsExcludedFile) {
+        if (!containsExcludedFile && dir != ROOT_PATH) {
             Files.delete(dir)
         }
 
         return FileVisitResult.CONTINUE
+    }
+
+    override fun preVisitDirectory(dir: Path?, attrs: BasicFileAttributes?): FileVisitResult {
+        if (excludingPaths.contains(dir)) {
+            return FileVisitResult.SKIP_SUBTREE
+        }
+
+        return FileVisitResult.CONTINUE
+    }
+
+    companion object {
+        val ROOT_PATH: Path = Path.of(Directory.ROOT.path)
     }
 }
