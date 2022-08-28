@@ -2,6 +2,8 @@ package service.commit
 
 import model.LambdaStep
 import model.StepExecutorBuilder
+import repository.logger.Logger
+import repository.logger.StdOutLogger
 import service.commit.step.CreateCommit
 import service.commit.step.CreateFileBlobsIfNotExist
 import service.commit.step.CreateFileBlobsIfNotExistInput
@@ -12,8 +14,12 @@ class CommitServiceImpl(
     private val createFileBlobsIfNotExist: CreateFileBlobsIfNotExist = CreateFileBlobsIfNotExist(),
     private val createNewTree: CreateNewTree = CreateNewTree(),
     private val createCommit: CreateCommit = CreateCommit(),
-    private val moveHead: MoveHead = MoveHead()
+    private val moveHead: MoveHead = MoveHead(),
+    private val logger: Logger = StdOutLogger()
 ) : CommitService {
+    private val logCommitStep = LambdaStep<String, Unit> {
+        logger.println("Commit created with hash: $it")
+    }
 
     override fun run(stagedFiles: List<String>) {
         val executor = StepExecutorBuilder()
@@ -25,11 +31,5 @@ class CommitServiceImpl(
 
         val input = CreateFileBlobsIfNotExistInput(stagedFiles)
         executor.execute(input)
-    }
-
-    companion object {
-        val logCommitStep = LambdaStep<String, Unit> {
-            println("Commit created with hash: $it")
-        }
     }
 }
