@@ -3,21 +3,32 @@ package service.commit.step
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import model.CommitDataProvider.buildCommit
 import model.FileBlobDataProvider.buildFileBlob
 import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
+import repository.commit.CommitRepository
+import repository.head.HeadRepository
 import repository.tree.TreeRepository
 import kotlin.test.assertEquals
 
 class CreateNewTreeTest {
     private lateinit var treeRepository: TreeRepository
+    private lateinit var commitRepository: CommitRepository
+    private lateinit var headRepository: HeadRepository
     private lateinit var createNewTree: CreateNewTree
 
     @Before
     fun before() {
         treeRepository = mockk()
-        createNewTree = CreateNewTree(treeRepository)
+        commitRepository = mockk()
+        headRepository = mockk()
+        createNewTree = CreateNewTree(
+            commitRepository = commitRepository,
+            headRepository = headRepository,
+            treeRepository = treeRepository
+        )
     }
 
     @Test
@@ -34,10 +45,6 @@ class CreateNewTreeTest {
 
         val input = CreateFileBlobsIfNotExistOutput(
             fileBlobList = newFileBlob,
-            currentTree = buildTree(
-                fileBlobList = currentTreeFileBlob
-            ),
-            commitId = "commit-id",
         )
 
         val mergedFileBlob = listOf(
@@ -46,12 +53,14 @@ class CreateNewTreeTest {
             buildFileBlob(path = "path-3"),
         )
 
+        every { headRepository.getHead() } returns "commit-id"
+        every { commitRepository.get(any()) } returns buildCommit()
+        every { treeRepository.get(any()) } returns buildTree(fileBlobList = currentTreeFileBlob)
         every { treeRepository.create(any()) } returns "tree-id"
 
         val result = createNewTree.execute(input)
 
         assertEquals("tree-id", result.treeId)
-        assertEquals("commit-id", result.parentId)
         verify { treeRepository.create(mergedFileBlob) }
     }
 }

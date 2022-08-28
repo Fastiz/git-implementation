@@ -19,7 +19,7 @@ class CommitContentFormatterTest {
                 "tree tree-id\n" +
                 "parent parent-id\n" +
                 "\n" +
-                "message"
+                "message\n"
 
         assertEquals(expected, result)
     }

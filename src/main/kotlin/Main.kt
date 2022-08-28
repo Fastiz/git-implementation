@@ -15,6 +15,7 @@ class Main(private val commandRunner: CommandRunner = CommandRunnerImpl()) {
             "commit" -> commandRunner.commit(args)
             "init" -> commandRunner.init()
             "checkout" -> commandRunner.checkout(args)
+            "log" -> commandRunner.log()
             else -> throw Exception("There is not command named $commandName")
         }
     }

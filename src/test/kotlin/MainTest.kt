@@ -13,7 +13,7 @@ class MainTest {
     lateinit var main: Main
 
     @Before
-    fun before(){
+    fun before() {
         commandRunner = mockk()
         main = Main(commandRunner)
     }
@@ -59,5 +59,16 @@ class MainTest {
         main.run(args)
 
         verify { commandRunner.checkout(args) }
+    }
+
+    @Test
+    fun `call run log`() {
+        val args = listOf("log").toTypedArray()
+
+        every { commandRunner.log() } just runs
+
+        main.run(args)
+
+        verify { commandRunner.log() }
     }
 }

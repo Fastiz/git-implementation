@@ -28,8 +28,8 @@ class WorkingDirectoryRepositoryImplTest {
 
         verify {
             fileDao.removeAllExcluding(
-                directory = "/",
-                excluding = listOf("/.fastiz-git")
+                directory = ".",
+                excluding = listOf("./.fastiz-git")
             )
         }
     }
@@ -41,6 +41,6 @@ class WorkingDirectoryRepositoryImplTest {
         val fileBlob = buildFileBlob(id = "id", path = "path")
         workingDirectoryRepositoryImpl.bringBlob(fileBlob)
 
-        verify { fileDao.copyFile(origin = "/.fastiz-git/objects/id", target = "/path" ) }
+        verify { fileDao.copyFile(origin = "./.fastiz-git/objects/id", target = "./path" ) }
     }
 }

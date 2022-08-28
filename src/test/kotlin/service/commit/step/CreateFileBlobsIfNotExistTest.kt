@@ -28,9 +28,6 @@ class CreateFileBlobsIfNotExistTest {
         headRepository = mockk()
         fileBlobRepository = mockk()
         createFileBlobsIfNotExist = CreateFileBlobsIfNotExist(
-            treeRepository = treeRepository,
-            commitRepository = commitRepository,
-            headRepository = headRepository,
             fileBlobRepository = fileBlobRepository
         )
     }
@@ -57,8 +54,6 @@ class CreateFileBlobsIfNotExistTest {
             verify { fileBlobRepository.createIfNotExists(file) }
         }
 
-        assertEquals("current-commit-id", result.commitId)
-        assertEquals(currentTree, result.currentTree)
         assertEquals(
             listOf(
                 FileBlob(path = "file-1.kt", id = "file-1.kt-id"),

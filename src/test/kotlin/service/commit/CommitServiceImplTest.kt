@@ -1,11 +1,8 @@
 package service.commit
 
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.runs
 import io.mockk.verify
-import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
 import service.commit.step.CreateCommit
@@ -45,13 +42,10 @@ class CommitServiceImplTest {
             stagedFiles = stagedFiles
         )
         val createFileBlobsIfNotExistOutput = CreateFileBlobsIfNotExistOutput(
-            fileBlobList = emptyList(),
-            currentTree = buildTree(),
-            commitId = "commit-id"
+            fileBlobList = emptyList()
         )
         val createNewTreeOutput = OutputCreateNewTree(
             treeId = "tree-id",
-            parentId = "commit-id",
         )
         val createCommitOutput = CreateCommitOutput(
             commitId = "commit-id"
@@ -60,7 +54,7 @@ class CommitServiceImplTest {
         every { createFileBlobsIfNotExist.execute(any()) } returns createFileBlobsIfNotExistOutput
         every { createNewTree.execute(any()) } returns createNewTreeOutput
         every { createCommit.execute(any()) } returns createCommitOutput
-        every { moveHead.execute(any()) } just runs
+        every { moveHead.execute(any()) } returns "commit-id"
 
         commitServiceImpl.run(stagedFiles)
 

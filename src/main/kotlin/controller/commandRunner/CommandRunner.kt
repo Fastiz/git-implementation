@@ -6,4 +6,6 @@ interface CommandRunner {
     fun init()
 
     fun checkout(args: Array<String>)
+
+    fun log()
 }
