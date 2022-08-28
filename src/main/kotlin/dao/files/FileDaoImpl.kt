@@ -42,4 +42,7 @@ class FileDaoImpl : FileDao {
         Files.walkFileTree(startDirectoryPath, DeleteFilesExcludingVisitor(excludingPaths))
     }
 
+    override fun doesFileExist(path: String): Boolean {
+        return Files.exists(Path.of(path))
+    }
 }

@@ -1,5 +1,6 @@
 package service.commit
 
+import model.LambdaStep
 import model.StepExecutorBuilder
 import service.commit.step.CreateCommit
 import service.commit.step.CreateFileBlobsIfNotExist
@@ -20,8 +21,15 @@ class CommitServiceImpl(
             .addStep(createNewTree)
             .addStep(createCommit)
             .addStep(moveHead)
+            .addStep(logCommitStep)
 
         val input = CreateFileBlobsIfNotExistInput(stagedFiles)
         executor.execute(input)
+    }
+
+    companion object {
+        val logCommitStep = LambdaStep<String, Unit> {
+            println("Commit created with hash: $it")
+        }
     }
 }

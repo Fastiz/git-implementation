@@ -20,4 +20,6 @@ interface FileDao {
     fun copyFile(origin: String, target: String)
 
     fun removeAllExcluding(directory: String, excluding: List<String>)
+
+    fun doesFileExist(path: String): Boolean
 }

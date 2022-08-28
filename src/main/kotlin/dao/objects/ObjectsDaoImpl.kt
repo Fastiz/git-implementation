@@ -15,9 +15,11 @@ class ObjectsDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : ObjectsDao 
 
         val path = Directory.OBJECTS.extendPath(hash)
 
-        fileDao.createFile(path)
-        fileDao.writeFile(path) {
-            write(content)
+        if (!fileDao.doesFileExist(path)) {
+            fileDao.createFile(path)
+            fileDao.writeFile(path) {
+                write(content)
+            }
         }
 
         return hash

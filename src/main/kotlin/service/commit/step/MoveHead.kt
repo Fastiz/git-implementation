@@ -6,8 +6,10 @@ import repository.head.HeadRepositoryImpl
 
 class MoveHead(
     private val headRepository: HeadRepository = HeadRepositoryImpl(),
-) : Step<CreateCommitOutput, Unit> {
-    override fun execute(input: CreateCommitOutput) {
+) : Step<CreateCommitOutput, String> {
+    override fun execute(input: CreateCommitOutput): String {
         headRepository.setHead(input.commitId)
+
+        return input.commitId
     }
 }
