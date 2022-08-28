@@ -4,12 +4,10 @@ import dao.files.FileDao
 import dao.files.FileDaoImpl
 import model.File
 
-class NoHeadException : RuntimeException()
-
 class HeadDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : HeadDao {
-    override fun getHead(): String {
+    override fun getHead(): String? {
         val line = fileDao.readFile(File.HEAD.path) {
-            readLine() ?: throw NoHeadException()
+            readLine()
         }
 
         return line

@@ -7,7 +7,7 @@ typealias Hash = String
 interface CommitRepository {
     fun create(
         treeId: String,
-        parentId: String,
+        parentId: String?,
         message: String
     ): Hash
 

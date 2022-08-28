@@ -7,7 +7,7 @@ import repository.commit.CommitContentFormatter.formatCommitMessage
 import repository.commit.CommitContentFormatter.parseCommitMessage
 
 class CommitRepositoryImpl(private val objectsDao: ObjectsDao = ObjectsDaoImpl()) : CommitRepository {
-    override fun create(treeId: String, parentId: String, message: String): Hash {
+    override fun create(treeId: String, parentId: String?, message: String): Hash {
         val content = formatCommitMessage(treeId, parentId, message)
 
         return objectsDao.createFromString(content)

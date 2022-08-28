@@ -5,7 +5,7 @@ import java.nio.file.Path
 
 class FileDaoImpl : FileDao {
     override fun createDirectory(path: String) {
-        Files.createDirectory(Path.of(path))
+        Files.createDirectories(Path.of(path))
     }
 
     override fun createFile(path: String) {

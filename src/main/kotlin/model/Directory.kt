@@ -1,7 +1,7 @@
 package model
 
 enum class Directory(val path: String) {
-    ROOT("/"),
+    ROOT("."),
     GIT(ROOT.extendPath(".fastiz-git")),
     OBJECTS(GIT.extendPath("objects")),
 }

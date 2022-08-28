@@ -5,13 +5,15 @@ import model.Commit
 object CommitContentFormatter {
     fun formatCommitMessage(
         treeId: String,
-        parentId: String,
+        parentId: String?,
         message: String
     ): String {
         val sb = StringBuilder()
 
+        val parentIdText = parentId ?: ""
+
         sb.appendLine("tree $treeId")
-        sb.appendLine("parent $parentId")
+        sb.appendLine("parent $parentIdText")
         sb.appendLine()
         sb.append(message)
 
@@ -25,8 +27,14 @@ object CommitContentFormatter {
         val lines = commit.split("\n")
 
         val treeId = lines[0].substringAfter("tree ")
-        val parentId = lines[1].substringAfter("parent ")
+        val readParentId = lines[1].substringAfter("parent ")
         val message = lines[3]
+
+        val parentId = if (readParentId == "") {
+            null
+        } else {
+            readParentId
+        }
 
         return Commit(
             id = commitId,
