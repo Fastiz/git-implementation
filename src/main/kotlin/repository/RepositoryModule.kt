@@ -27,7 +27,7 @@ object RepositoryModule {
         }
         single<HeadRepository> {
             HeadRepositoryImpl(
-                headDao = get()
+                fileDao = get()
             )
         }
         single<TreeRepository> {
