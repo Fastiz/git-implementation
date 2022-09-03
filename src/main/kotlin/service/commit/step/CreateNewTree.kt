@@ -4,20 +4,17 @@ import model.FileBlob
 import model.Step
 import model.overrideWith
 import repository.commit.CommitRepository
-import repository.commit.CommitRepositoryImpl
 import repository.head.HeadRepository
-import repository.head.HeadRepositoryImpl
 import repository.tree.TreeRepository
-import repository.tree.TreeRepositoryImpl
 
 data class OutputCreateNewTree(
     val treeId: String,
 )
 
 class CreateNewTree(
-    private val commitRepository: CommitRepository = CommitRepositoryImpl(),
-    private val headRepository: HeadRepository = HeadRepositoryImpl(),
-    private val treeRepository: TreeRepository = TreeRepositoryImpl(),
+    private val commitRepository: CommitRepository,
+    private val headRepository: HeadRepository,
+    private val treeRepository: TreeRepository,
 ) : Step<CreateFileBlobsIfNotExistOutput, OutputCreateNewTree> {
     override fun execute(input: CreateFileBlobsIfNotExistOutput): OutputCreateNewTree {
         val mergedBlobFiles = getMergedBlobFiles(input.fileBlobList)

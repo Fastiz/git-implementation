@@ -1,14 +1,20 @@
 import controller.commandRunner.CommandRunner
 import controller.commandRunner.ControllerModule
+import dao.DaoModule
+import logger.Logger
+import logger.StdOutLogger
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import repository.RepositoryModule
 import service.ServiceModule
 
 fun main(args: Array<String>) {
     startKoin {
         modules(
+            DaoModule.module,
+            RepositoryModule.module,
             ServiceModule.module,
             ControllerModule.module,
             MainModule.module,
@@ -25,6 +31,7 @@ fun main(args: Array<String>) {
 object MainModule {
     val module = module {
         single { Main(commandRunner = get()) }
+        single<Logger> { StdOutLogger() }
     }
 }
 

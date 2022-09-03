@@ -1,14 +1,12 @@
 package service.log
 
 import repository.head.HeadRepository
-import repository.head.HeadRepositoryImpl
-import repository.logger.Logger
-import repository.logger.StdOutLogger
+import logger.Logger
 
 class LogServiceImpl(
-    private val headRepository: HeadRepository = HeadRepositoryImpl(),
-    private val commitHistoryFactory: CommitHistoryFactory = CommitHistoryFactory(),
-    private val logger: Logger = StdOutLogger()
+    private val headRepository: HeadRepository,
+    private val commitHistoryFactory: CommitHistoryFactory,
+    private val logger: Logger
 ) : LogService {
     override fun run() {
         val headId = headRepository.getHead()

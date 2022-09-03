@@ -1,4 +1,4 @@
-package repository.logger
+package logger
 
 class StdOutLogger : Logger {
     override fun println(line: String) {

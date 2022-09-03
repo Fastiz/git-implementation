@@ -2,10 +2,9 @@ package service.log
 
 import model.Commit
 import repository.commit.CommitRepository
-import repository.commit.CommitRepositoryImpl
 
 class CommitHistoryFactory(
-    private val commitRepository: CommitRepository = CommitRepositoryImpl()
+    private val commitRepository: CommitRepository
 ) {
     fun create(startCommitId: String): CommitHistoryIterable {
         return CommitHistoryIterable(

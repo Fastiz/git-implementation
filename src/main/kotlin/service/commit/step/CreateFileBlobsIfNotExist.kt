@@ -3,7 +3,6 @@ package service.commit.step
 import model.FileBlob
 import model.Step
 import repository.blob.FileBlobRepository
-import repository.blob.FileBlobRepositoryImpl
 
 data class CreateFileBlobsIfNotExistInput(
     val stagedFiles: List<String>
@@ -14,7 +13,7 @@ data class CreateFileBlobsIfNotExistOutput(
 )
 
 class CreateFileBlobsIfNotExist(
-    private val fileBlobRepository: FileBlobRepository = FileBlobRepositoryImpl()
+    private val fileBlobRepository: FileBlobRepository
 ) : Step<CreateFileBlobsIfNotExistInput, CreateFileBlobsIfNotExistOutput> {
 
     override fun execute(input: CreateFileBlobsIfNotExistInput): CreateFileBlobsIfNotExistOutput {

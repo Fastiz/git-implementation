@@ -1,19 +1,15 @@
 package service.checkout
 
 import repository.commit.CommitRepository
-import repository.commit.CommitRepositoryImpl
 import repository.head.HeadRepository
-import repository.head.HeadRepositoryImpl
 import repository.tree.TreeRepository
-import repository.tree.TreeRepositoryImpl
 import repository.workingdirectory.WorkingDirectoryRepository
-import repository.workingdirectory.WorkingDirectoryRepositoryImpl
 
 class CheckoutServiceImpl(
-    private val workingDirectoryRepository: WorkingDirectoryRepository = WorkingDirectoryRepositoryImpl(),
-    private val headRepository: HeadRepository = HeadRepositoryImpl(),
-    private val treeRepository: TreeRepository = TreeRepositoryImpl(),
-    private val commitRepository: CommitRepository = CommitRepositoryImpl()
+    private val workingDirectoryRepository: WorkingDirectoryRepository,
+    private val headRepository: HeadRepository,
+    private val treeRepository: TreeRepository,
+    private val commitRepository: CommitRepository
 ) : CheckoutService {
     override fun run(id: String) {
         workingDirectoryRepository.clear()

@@ -1,13 +1,12 @@
 package repository.workingdirectory
 
 import dao.files.FileDao
-import dao.files.FileDaoImpl
 import model.Directory
 import model.FileBlob
 import model.extendPath
 
 class WorkingDirectoryRepositoryImpl(
-    private val fileDao: FileDao = FileDaoImpl()
+    private val fileDao: FileDao
 ) : WorkingDirectoryRepository {
     override fun clear() {
         fileDao.removeAllExcluding(
