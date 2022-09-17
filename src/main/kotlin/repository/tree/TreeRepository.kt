@@ -1,12 +1,12 @@
 package repository.tree
 
-import model.FileBlob
 import model.Tree
+import model.TreeInput
 
 typealias Hash = String
 
 interface TreeRepository {
-    fun create(fileBlobList: List<FileBlob>): Hash
+    fun create(treeInput: TreeInput): Hash
 
     fun get(treeId: Hash): Tree
 }
