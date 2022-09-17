@@ -3,11 +3,11 @@ package model
 object TreeDataProvider {
     fun buildTree(
         id: String = "tree-id",
-        fileBlobList: List<FileBlob> = emptyList()
+        entries: List<TreeEntry> = emptyList()
     ): Tree {
         return Tree(
             id = id,
-            fileBlobList = fileBlobList
+            entries = entries
         )
     }
 }

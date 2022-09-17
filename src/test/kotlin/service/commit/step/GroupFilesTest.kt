@@ -1,9 +1,16 @@
 package service.commit.step
 
+import io.mockk.every
+import io.mockk.mockk
 import model.FileBlob
+import model.FileTreeEntry
+import model.SubtreeTreeEntry
+import model.Tree
+import model.TreeDataProvider.buildTree
 import org.junit.jupiter.api.Test
 
 import service.commit.step.GroupFiles.groupFilesByFolder
+import service.commit.step.GroupFiles.groupFilesByFolderFromTree
 import kotlin.test.assertEquals
 
 internal class GroupFilesTest {
@@ -24,6 +31,51 @@ internal class GroupFilesTest {
         )
 
         val result = groupFilesByFolder(fileBlobs)
+
+        assertEquals(expectedResult, result)
+    }
+
+    @Test
+    fun `groupFilesByFolderFromTree - groups them correctly`() {
+        val fileBlob1 = FileBlob("./dir2/file1.jpg", "id-1")
+        val fileBlob2 = FileBlob("./file2.pdf", "id-2")
+        val fileBlob3 = FileBlob("./file3.doc", "id-3")
+        val fileBlob4 = FileBlob("./dir3/file4.png", "id-3")
+
+        val tree1 = buildTree(
+            id = "tree-2",
+            entries = listOf(
+                FileTreeEntry(path = fileBlob1.path, fileBlobId = fileBlob1.id),
+            )
+        )
+        val tree2 = buildTree(
+            id = "tree-3",
+            entries = listOf(
+                FileTreeEntry(path = fileBlob4.path, fileBlobId = fileBlob4.id),
+            )
+        )
+        val tree3 = buildTree(
+            id = "tree-1",
+            entries = listOf(
+                FileTreeEntry(path = fileBlob2.path, fileBlobId = fileBlob2.id),
+                FileTreeEntry(path = fileBlob3.path, fileBlobId = fileBlob3.id),
+                SubtreeTreeEntry(path = "./dir2", subtreeId = tree1.id),
+                SubtreeTreeEntry(path = "./dir3", subtreeId = tree2.id),
+            )
+        )
+
+        val expectedResult = mapOf(
+            "./dir2" to listOf(fileBlob1),
+            "." to listOf(fileBlob2, fileBlob3),
+            "./dir3" to listOf(fileBlob4)
+        )
+
+        val treeProvider = mockk<(treeId: String) -> Tree>()
+
+        every { treeProvider(tree1.id) } returns tree1
+        every { treeProvider(tree2.id) } returns tree2
+
+        val result = groupFilesByFolderFromTree(tree3, treeProvider)
 
         assertEquals(expectedResult, result)
     }

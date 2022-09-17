@@ -7,6 +7,7 @@ import io.mockk.runs
 import io.mockk.verify
 import model.CommitDataProvider.buildCommit
 import model.FileBlobDataProvider.buildFileBlob
+import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +42,12 @@ class CheckoutServiceImplTest {
     fun `run - calls dependencies`(){
         val blob1 = buildFileBlob(id = "blob-1")
         val blob2 = buildFileBlob(id = "blob-2")
-        val tree = buildTree(fileBlobList = listOf(blob1, blob2))
+        val tree = buildTree(
+            entries = listOf(
+                FileTreeEntry(path = blob1.path, fileBlobId = blob1.id),
+                FileTreeEntry(path = blob2.path, fileBlobId = blob2.id),
+            )
+        )
 
         every { workingDirectoryRepository.clear() } just runs
         every { commitRepository.get(any()) } returns buildCommit(id = "commit-id")
