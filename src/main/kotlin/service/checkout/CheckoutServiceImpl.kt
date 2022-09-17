@@ -17,7 +17,8 @@ class CheckoutServiceImpl(
         val treeId = commitRepository.get(id).treeId
         val tree = treeRepository.get(treeId)
 
-        tree.fileBlobList.forEach { workingDirectoryRepository.bringBlob(it) }
+        // tree.fileBlobList.forEach { workingDirectoryRepository.bringBlob(it) }
+        // TODO: reimplement
 
         headRepository.setHead(id)
     }

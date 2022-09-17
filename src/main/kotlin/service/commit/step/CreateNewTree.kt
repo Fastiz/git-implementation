@@ -2,10 +2,14 @@ package service.commit.step
 
 import model.FileBlob
 import model.Step
+import model.Tree
 import model.overrideWith
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 import repository.tree.TreeRepository
+import service.commit.step.GroupFiles.groupFilesByFolder
+import service.commit.step.GroupFiles.groupFilesByFolderFromTree
+import service.commit.step.GroupFiles.mergeGroupedFiles
 
 data class OutputCreateNewTree(
     val treeId: String,
@@ -17,21 +21,32 @@ class CreateNewTree(
     private val treeRepository: TreeRepository,
 ) : Step<CreateFileBlobsIfNotExistOutput, OutputCreateNewTree> {
     override fun execute(input: CreateFileBlobsIfNotExistOutput): OutputCreateNewTree {
-        val mergedBlobFiles = getMergedBlobFiles(input.fileBlobList)
+        val stagingTreeGroupedFiles = groupFilesByFolder(input.fileBlobList)
 
-        val treeId = treeRepository.create(mergedBlobFiles)
+        val currentCommitId = headRepository.getHead()
+        val currentTreeGroupedFiles = currentCommitId?.let(::getGroupedFilesFromCurrentTree) ?: emptyMap()
 
-        return OutputCreateNewTree(
-            treeId = treeId,
+        val mergedGroupedFiles = mergeGroupedFiles(
+            base = currentTreeGroupedFiles,
+            override = stagingTreeGroupedFiles
         )
+
+        val treeId = createTreesFromGroupedFiles(mergedGroupedFiles)
+
+        return OutputCreateNewTree(treeId = treeId)
     }
 
-    private fun getMergedBlobFiles(fileBlobList: List<FileBlob>): List<FileBlob> {
-        val head = headRepository.getHead() ?: return fileBlobList
+    private fun getGroupedFilesFromCurrentTree(currentCommitId: String): Map<String, List<FileBlob>> {
+        val currentCommit = commitRepository.get(currentCommitId)
 
-        val currentCommit = commitRepository.get(head)
         val currentTree = treeRepository.get(currentCommit.treeId)
 
-        return currentTree.fileBlobList.overrideWith(fileBlobList)
+        return groupFilesByFolderFromTree(currentTree) { treeId ->
+            treeRepository.get(treeId)
+        }
+    }
+
+    private fun createTreesFromGroupedFiles(groupedFiles: Map<String, List<FileBlob>>): String {
+        TODO()
     }
 }
