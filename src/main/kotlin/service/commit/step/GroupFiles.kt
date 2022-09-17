@@ -1,7 +1,6 @@
 package service.commit.step
 
 import model.Directory
-import model.File
 import model.FileBlob
 import model.FileTreeEntry
 import model.SubtreeTreeEntry
@@ -68,7 +67,30 @@ object GroupFiles {
         base: Map<String, List<FileBlob>>,
         override: Map<String, List<FileBlob>>
     ): Map<String, List<FileBlob>> {
-        TODO()
+        val result = mutableMapOf<String, List<FileBlob>>()
+        val allKeys = base.keys.toSet() + override.keys.toSet()
+
+        allKeys.forEach {
+            val baseList = base[it] ?: emptyList()
+            val overrideList = override[it] ?: emptyList()
+
+            result[it] = mergeListOfFileBlob(baseList, overrideList)
+        }
+
+        return result
+    }
+
+    private fun mergeListOfFileBlob(base: List<FileBlob>, override: List<FileBlob>): List<FileBlob> {
+        val result = override.toMutableList()
+
+        base.forEach {
+            val paths = result.map(FileBlob::path)
+            if (!paths.contains(it.path)) {
+                result.add(it)
+            }
+        }
+
+        return result
     }
 
 }

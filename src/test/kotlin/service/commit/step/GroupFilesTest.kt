@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 
 import service.commit.step.GroupFiles.groupFilesByFolder
 import service.commit.step.GroupFiles.groupFilesByFolderFromTree
+import service.commit.step.GroupFiles.mergeGroupedFiles
 import kotlin.test.assertEquals
 
 internal class GroupFilesTest {
@@ -76,6 +77,31 @@ internal class GroupFilesTest {
         every { treeProvider(tree2.id) } returns tree2
 
         val result = groupFilesByFolderFromTree(tree3, treeProvider)
+
+        assertEquals(expectedResult, result)
+    }
+
+    @Test
+    fun `mergeGroupedFiles - groups them correctly`() {
+        val baseFileBlob = mapOf(
+            "./dir2" to listOf(FileBlob("./dir2/file1.jpg", "base-id-1")),
+            "." to listOf(FileBlob("./file2.pdf", "base-id-2")),
+        )
+        val overrideFileBlob = mapOf(
+            "." to listOf(FileBlob("./file2.pdf", "override-id-2"), FileBlob("./file6.doc", "override-id-3")),
+            "./dir4" to listOf(FileBlob("./dir4/file5.png", "override-id-4")),
+        )
+
+        val expectedResult = mapOf(
+            "./dir2" to listOf(FileBlob("./dir2/file1.jpg", "base-id-1")),
+            "." to listOf(
+                FileBlob("./file2.pdf", "override-id-2"),
+                FileBlob("./file6.doc", "override-id-3")
+            ),
+            "./dir4" to listOf(FileBlob("./dir4/file5.png", "override-id-4")),
+        )
+
+        val result = mergeGroupedFiles(base = baseFileBlob, override = overrideFileBlob)
 
         assertEquals(expectedResult, result)
     }
