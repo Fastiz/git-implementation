@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout_and_setup:
+  linter_and_test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
