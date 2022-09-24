@@ -1,3 +1,2 @@
 
 rootProject.name = "git-implementation"
-

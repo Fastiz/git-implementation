@@ -1,7 +1,7 @@
 package service.log
 
-import repository.head.HeadRepository
 import logger.Logger
+import repository.head.HeadRepository
 
 class LogServiceImpl(
     private val headRepository: HeadRepository,

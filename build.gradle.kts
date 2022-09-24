@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.10"
     application
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
 }
 
 group = "me.fastiz"
@@ -17,11 +18,11 @@ val koinVersion = "3.2.0"
 val mockkVersion = "1.12.7"
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
-    testImplementation("io.mockk:mockk:$mockkVersion")
-    implementation ("io.insert-koin:koin-core:$koinVersion")
-    testImplementation ("io.insert-koin:koin-test:$koinVersion")
+    implementation("io.insert-koin:koin-core:$koinVersion")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    testImplementation("io.insert-koin:koin-test:$koinVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
 
 tasks.test {

@@ -17,7 +17,6 @@ import org.junit.Test
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 import repository.tree.TreeRepository
-import java.util.UUID
 import kotlin.test.assertEquals
 
 class CreateNewTreeTest {

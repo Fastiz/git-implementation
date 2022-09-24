@@ -12,5 +12,4 @@ class ReaderImpl(lines: Stream<String>) : Reader {
 
         return null
     }
-
 }

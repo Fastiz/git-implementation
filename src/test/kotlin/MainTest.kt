@@ -25,7 +25,6 @@ class MainTest {
         assertFailsWith<Exception> {
             main.run(args)
         }
-
     }
 
     @Test

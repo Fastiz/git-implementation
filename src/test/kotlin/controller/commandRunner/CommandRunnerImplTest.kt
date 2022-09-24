@@ -1,6 +1,5 @@
 package controller.commandRunner
 
-import service.commit.CommitService
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -9,6 +8,7 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import service.checkout.CheckoutService
+import service.commit.CommitService
 import service.init.InitService
 import service.log.LogService
 

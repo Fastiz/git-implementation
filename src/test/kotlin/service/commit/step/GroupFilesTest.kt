@@ -10,7 +10,6 @@ import model.Tree
 import model.TreeDataProvider.buildTree
 import model.TreeId
 import org.junit.Test
-
 import service.commit.step.GroupFiles.groupFilesByFolder
 import service.commit.step.GroupFiles.groupFilesByFolderFromTree
 import service.commit.step.GroupFiles.mergeGroupedFiles

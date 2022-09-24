@@ -7,7 +7,7 @@ class WriterImpl() : Writer {
         fullContent.append(content)
     }
 
-    fun getFullContent(): String{
+    fun getFullContent(): String {
         return fullContent.toString()
     }
 }
