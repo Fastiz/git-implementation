@@ -30,7 +30,7 @@ where `arguments` from the list of supported commands.
 
 Also it's possible to create an alias for running the jar with:
 ```
-alias <name>=java -jar git-implementation-X.X-SNAPSHOT-standalone.jar
+alias <name>=java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar>
 ```
 
 ### Example
