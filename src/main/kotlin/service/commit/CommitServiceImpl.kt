@@ -1,8 +1,10 @@
 package service.commit
 
 import logger.Logger
+import model.Directory
 import model.LambdaStep
 import model.StepExecutorBuilder
+import model.extendPath
 import service.commit.step.CreateCommit
 import service.commit.step.CreateFileBlobsIfNotExist
 import service.commit.step.CreateFileBlobsIfNotExistInput
@@ -28,7 +30,9 @@ class CommitServiceImpl(
             .addStep(moveHead)
             .addStep(logCommitStep)
 
-        val input = CreateFileBlobsIfNotExistInput(stagedFiles)
+        // FIXME shouldn't allow files to come from a directory outside root
+        val stagesFilesRelativeToRoot = stagedFiles.map { Directory.ROOT.extendPath(it) }
+        val input = CreateFileBlobsIfNotExistInput(stagesFilesRelativeToRoot)
         executor.execute(input)
     }
 }

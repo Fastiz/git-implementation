@@ -29,15 +29,22 @@ class CreateNewTree(
     override fun execute(input: CreateFileBlobsIfNotExistOutput): OutputCreateNewTree {
         val stagingTreeGroupedFiles = groupFilesByFolder(input.fileBlobList)
 
+        logger.printDebug("CreateNewTree - staging grouped files to include in tree:")
+        stagingTreeGroupedFiles.forEach { logger.printDebug("\t$it") }
+
         val currentCommitId = headRepository.getHead()
         val currentTreeGroupedFiles = currentCommitId?.let(::getGroupedFilesFromCurrentTree) ?: emptyMap()
+
+        logger.printDebug("CreateNewTree - current tree grouped files to include in tree:")
+        currentTreeGroupedFiles.forEach { logger.printDebug("\t$it") }
 
         val mergedGroupedFiles = mergeGroupedFiles(
             base = currentTreeGroupedFiles,
             override = stagingTreeGroupedFiles
         )
 
-        logger.printDebug("CreateNewTree - merged group files to include in tree: $mergedGroupedFiles")
+        logger.printDebug("CreateNewTree - merged grouped files to include in tree:")
+        mergedGroupedFiles.forEach { logger.printDebug("\t$it") }
 
         val treeId = createTreesFromGroupedFiles(mergedGroupedFiles)
 
@@ -85,7 +92,7 @@ class CreateNewTree(
                     createdTrees = createdTrees
                 )
 
-            SubtreeTreeEntry(path = currentDirectory, subtreeId = subtreeId)
+            SubtreeTreeEntry(path = child, subtreeId = subtreeId)
         }
 
         val fileEntries = (groupedFiles[currentDirectory] ?: emptyList())

@@ -32,6 +32,7 @@ class FileDaoImpl : FileDao {
         val originPath = Path.of(origin)
         val targetPath = Path.of(target)
 
+        Files.createDirectories(targetPath.parent)
         Files.copy(originPath, targetPath)
     }
 
