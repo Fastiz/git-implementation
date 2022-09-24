@@ -12,31 +12,24 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class FileBlobRepositoryImplTest {
-    private lateinit var fileDao: FileDao
     private lateinit var objectsDao: ObjectsDao
     private lateinit var fileBlobRepositoryImpl: FileBlobRepositoryImpl
 
     @Before
     fun before() {
-        fileDao = mockk()
         objectsDao = mockk()
         fileBlobRepositoryImpl = FileBlobRepositoryImpl(
-            fileDao = fileDao, objectsDao = objectsDao
+            objectsDao = objectsDao
         )
     }
 
     @Test
     fun `createIfNotExists - calls objectsDao to create an object from the read string`() {
-        every { fileDao.readFile(any(), any<Reader.() -> Sequence<String>>()) } returns listOf(
-            "line1",
-            "line2",
-            ""
-        ).asSequence()
-        every { objectsDao.createFromString(any()) } returns "object-id"
+        every { objectsDao.createFromPath(any()) } returns "object-id"
 
         val result = fileBlobRepositoryImpl.createIfNotExists("path")
 
-        verify { objectsDao.createFromString("line1\nline2\n") }
+        verify { objectsDao.createFromPath("path") }
         assertEquals(FileBlobId.from("object-id"), result)
     }
 }
