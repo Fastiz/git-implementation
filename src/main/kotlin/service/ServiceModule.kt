@@ -16,15 +16,7 @@ import service.log.LogService
 import service.log.LogServiceImpl
 
 object ServiceModule {
-    private val commitHistory = org.koin.dsl.module {
-        single {
-            CommitHistoryFactory(
-                commitRepository = get()
-            )
-        }
-    }
-
-    private val commitSteps = org.koin.dsl.module {
+    val module = module {
         single {
             CreateFileBlobsIfNotExist(
                 fileBlobRepository = get(),
@@ -52,11 +44,6 @@ object ServiceModule {
                 logger = get(),
             )
         }
-    }
-
-    val module = module {
-        includes(commitSteps)
-
         single<CommitService> {
             CommitServiceImpl(
                 createFileBlobsIfNotExist = get(),
@@ -82,7 +69,12 @@ object ServiceModule {
             )
         }
 
-        includes(commitHistory)
+        single {
+            CommitHistoryFactory(
+                commitRepository = get()
+            )
+        }
+
         single<LogService> {
             LogServiceImpl(
                 headRepository = get(),
