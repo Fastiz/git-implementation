@@ -42,7 +42,7 @@ class CommitServiceImplTest {
     fun `calls all the steps`() {
         val stagedFiles = listOf("sample-file.kt")
         val input = CreateFileBlobsIfNotExistInput(
-            stagedFiles = stagedFiles
+            stagedFiles = listOf("./sample-file.kt")
         )
         val createFileBlobsIfNotExistOutput = CreateFileBlobsIfNotExistOutput(
             fileBlobList = emptyList()

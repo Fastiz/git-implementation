@@ -1,9 +1,14 @@
 package repository.head
 
 import dao.files.FileDao
+import dao.files.Reader
+import io.mockk.every
 import io.mockk.mockk
+import model.File
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class HeadRepositoryImplTest {
     private lateinit var fileDao: FileDao
@@ -17,6 +22,21 @@ class HeadRepositoryImplTest {
 
     @Test
     fun `getHead - retrieves the ref commit hash`() {
-        TODO()
+        val expectedCommitId = "commit-id"
+
+        every { fileDao.readFile(eq(File.HEAD.path), any<Reader.() -> String?>()) } returns "ref: $expectedCommitId"
+
+        val result = headRepositoryImpl.getHead()
+
+        assertEquals(expectedCommitId, result)
+    }
+
+    @Test
+    fun `getHead - if stored ref is empty then return null`() {
+        every { fileDao.readFile(eq(File.HEAD.path), any<Reader.() -> String?>()) } returns null
+
+        val result = headRepositoryImpl.getHead()
+
+        assertNull(result)
     }
 }
