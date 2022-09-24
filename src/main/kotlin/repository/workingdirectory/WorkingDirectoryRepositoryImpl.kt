@@ -16,7 +16,7 @@ class WorkingDirectoryRepositoryImpl(
     }
 
     override fun bringBlob(fileBlob: FileBlob) {
-        val originPath = Directory.OBJECTS.extendPath(fileBlob.id)
+        val originPath = Directory.OBJECTS.extendPath(fileBlob.id.value)
         val targetPath = Directory.ROOT.extendPath(fileBlob.path)
 
         fileDao.copyFile(

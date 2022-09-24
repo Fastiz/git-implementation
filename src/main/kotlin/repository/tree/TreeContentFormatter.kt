@@ -1,5 +1,6 @@
 package repository.tree
 
+import model.FileBlobId
 import model.FileTreeEntry
 import model.SubtreeTreeEntry
 import model.Tree
@@ -33,7 +34,7 @@ object TreeContentFormatter {
 
             when (type) {
                 "blob" -> FileTreeEntry(
-                    fileBlobId = entityId,
+                    fileBlobId = FileBlobId.from(entityId),
                     path = entityPath
                 )
                 "tree" -> SubtreeTreeEntry(

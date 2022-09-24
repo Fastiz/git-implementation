@@ -7,6 +7,7 @@ import logger.TestLogger
 import model.CommitDataProvider.buildCommit
 import model.CommitId
 import model.FileBlob
+import model.FileBlobId
 import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
 import model.TreeInput
@@ -42,8 +43,8 @@ class CreateNewTreeTest {
     @Test
     fun `calls tree repository with the correct input`() {
         val fileBlobList = listOf(
-            FileBlob(id = "id-1", path = "./file1"),
-            FileBlob(id = "id-2", path = "./file2"),
+            FileBlob(id = FileBlobId.from("id-1"), path = "./file1"),
+            FileBlob(id = FileBlobId.from("id-2"), path = "./file2"),
         )
         val currentCommitId = CommitId.from("commit-id")
         val currentCommitTreeId = UUID.randomUUID().toString()
@@ -64,8 +65,8 @@ class CreateNewTreeTest {
 
         val expectedTreeInput = TreeInput(
             entries = listOf(
-                FileTreeEntry(fileBlobId = "id-1", path = "./file1"),
-                FileTreeEntry(fileBlobId = "id-2", path = "./file2"),
+                FileTreeEntry(fileBlobId = FileBlobId.from("id-1"), path = "./file1"),
+                FileTreeEntry(fileBlobId = FileBlobId.from("id-2"), path = "./file2"),
             )
         )
 

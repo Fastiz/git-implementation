@@ -1,8 +1,9 @@
 package repository.blob
 
+import model.FileBlobId
+
 typealias Path = String
-typealias Hash = String
 
 interface FileBlobRepository {
-    fun createIfNotExists(path: Path): Hash
+    fun createIfNotExists(path: Path): FileBlobId
 }
