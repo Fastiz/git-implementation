@@ -1,7 +1,7 @@
 package service.commit.step
 
 object DirectoriesParser {
-    fun getChildrenDirectories(directory: String, allDirectories: List<String>): List<String> {
+    fun getChildrenDirectories(directory: String, allDirectories: Collection<String>): List<String> {
         val directorySegments = directory.split("/")
 
         val result = mutableSetOf<String>()
@@ -18,7 +18,7 @@ object DirectoriesParser {
         return result.toList()
     }
 
-    fun getAllDirectories(directoriesWithContent: List<String>): List<String> {
+    fun getAllDirectories(directoriesWithContent: List<String>): Set<String> {
         val directories = mutableSetOf<String>()
 
         directoriesWithContent.forEach {
@@ -26,7 +26,7 @@ object DirectoriesParser {
             directories.addAll(subdirectories)
         }
 
-        return directories.toList()
+        return directories
     }
 
     private fun getAllSubdirectories(directory: String): List<String> {

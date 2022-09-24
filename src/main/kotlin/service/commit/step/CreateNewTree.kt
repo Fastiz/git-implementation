@@ -52,29 +52,47 @@ class CreateNewTree(
 
     private fun createTreesFromGroupedFiles(groupedFiles: Map<String, List<FileBlob>>): String {
         val allDirectories = getAllDirectories(groupedFiles.keys.toList())
-
         val createdTrees = mutableMapOf<String, String>()
-        allDirectories.sortedBy { it.length }.forEach { directory ->
-            val children = getChildrenDirectories(directory, allDirectories)
 
-            val subtreeEntries = children.map { child ->
-                val subtreeId = createdTrees[child] ?: throw IllegalStateException()
+        return createTreesFromGroupedFilesRec(
+            currentDirectory = Directory.ROOT.path,
+            allDirectories = allDirectories,
+            groupedFiles = groupedFiles,
+            createdTrees = createdTrees
+        )
+    }
 
-                SubtreeTreeEntry(path = directory, subtreeId = subtreeId)
-            }
+    private fun createTreesFromGroupedFilesRec(
+        currentDirectory: String,
+        allDirectories: Set<String>,
+        groupedFiles: Map<String, List<FileBlob>>,
+        createdTrees: MutableMap<String, String>,
+    ): String {
+        val children = getChildrenDirectories(currentDirectory, allDirectories)
 
-            val fileEntries = (groupedFiles[directory] ?: throw IllegalStateException())
-                .map { FileTreeEntry(path = it.path, fileBlobId = it.id) }
+        val subtreeEntries = children.map { child ->
+            val subtreeId = createdTrees[child]
+                ?: createTreesFromGroupedFilesRec(
+                    currentDirectory = child,
+                    allDirectories = allDirectories,
+                    groupedFiles = groupedFiles,
+                    createdTrees = createdTrees
+                )
 
-            val entries = fileEntries + subtreeEntries
-
-            val treeInput = TreeInput(entries = entries)
-
-            val treeId = treeRepository.create(treeInput)
-
-            createdTrees[directory] = treeId
+            SubtreeTreeEntry(path = currentDirectory, subtreeId = subtreeId)
         }
 
-        return createdTrees[Directory.ROOT.path] ?: throw IllegalStateException()
+        val fileEntries = (groupedFiles[currentDirectory] ?: emptyList())
+            .map { FileTreeEntry(path = it.path, fileBlobId = it.id) }
+
+        val entries = fileEntries + subtreeEntries
+
+        val treeInput = TreeInput(entries = entries)
+
+        val treeId = treeRepository.create(treeInput)
+
+        createdTrees[currentDirectory] = treeId
+
+        return treeId
     }
 }

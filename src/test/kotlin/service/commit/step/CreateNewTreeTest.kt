@@ -2,15 +2,18 @@ package service.commit.step
 
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.slot
 import model.CommitDataProvider.buildCommit
-import model.FileBlobDataProvider.buildFileBlob
+import model.FileBlob
+import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
+import model.TreeInput
 import org.junit.Before
 import org.junit.Test
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 import repository.tree.TreeRepository
+import java.util.UUID
 import kotlin.test.assertEquals
 
 class CreateNewTreeTest {
@@ -32,7 +35,36 @@ class CreateNewTreeTest {
     }
 
     @Test
-    fun `merges content from trees and calls the tree repository`() {
-        TODO()
+    fun `calls tree repository with the correct input`() {
+        val fileBlobList = listOf(
+            FileBlob(id = "id-1", path = "./file1"),
+            FileBlob(id = "id-2", path = "./file2"),
+        )
+        val currentCommitId = UUID.randomUUID().toString()
+        val currentCommitTreeId = UUID.randomUUID().toString()
+        val currentCommit = buildCommit(id = currentCommitId, treeId = currentCommitTreeId)
+        val currentTree = buildTree(entries = emptyList())
+        val resultTreeId = UUID.randomUUID().toString()
+
+        val input = CreateFileBlobsIfNotExistOutput(fileBlobList = fileBlobList)
+
+        every { headRepository.getHead() } returns currentCommitId
+        every { commitRepository.get(currentCommitId) } returns currentCommit
+        every { treeRepository.get(currentCommitTreeId) } returns currentTree
+
+        val treeInputSlot = slot<TreeInput>()
+        every { treeRepository.create(capture(treeInputSlot)) } returns resultTreeId
+
+        val result = createNewTree.execute(input)
+
+        val expectedTreeInput = TreeInput(
+            entries = listOf(
+                FileTreeEntry(fileBlobId = "id-1", path = "./file1"),
+                FileTreeEntry(fileBlobId = "id-2", path = "./file2"),
+            )
+        )
+
+        assertEquals(resultTreeId, result.treeId)
+        assertEquals(expectedTreeInput, treeInputSlot.captured)
     }
 }
