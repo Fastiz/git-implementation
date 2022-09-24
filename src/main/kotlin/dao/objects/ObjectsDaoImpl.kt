@@ -37,7 +37,6 @@ class ObjectsDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : ObjectsDao 
         return hash
     }
 
-
     override fun get(id: Hash): String {
         val lines = fileDao.readFile(Directory.OBJECTS.extendPath(id)) {
             generateSequence { readLine() }

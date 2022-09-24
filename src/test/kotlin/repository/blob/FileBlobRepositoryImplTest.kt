@@ -1,7 +1,5 @@
 package repository.blob
 
-import dao.files.FileDao
-import dao.files.Reader
 import dao.objects.ObjectsDao
 import io.mockk.every
 import io.mockk.mockk

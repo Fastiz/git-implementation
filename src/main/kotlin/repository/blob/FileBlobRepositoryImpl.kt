@@ -1,6 +1,5 @@
 package repository.blob
 
-import dao.files.FileDao
 import dao.objects.ObjectsDao
 import model.FileBlobId
 
