@@ -31,7 +31,7 @@ class CommitServiceImpl(
             .addStep(moveHead)
             .addStep(logCommitStep)
 
-        // FIXME shouldn't allow files to come from a directory outside root
+        // FIXME should canonize file paths
         val stagesFilesRelativeToRoot = stagedFiles.map { Directory.ROOT.extendPath(it) }
         val input = CreateFileBlobsIfNotExistInput(stagesFilesRelativeToRoot)
         executor.execute(input)
