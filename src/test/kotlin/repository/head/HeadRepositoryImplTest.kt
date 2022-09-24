@@ -4,6 +4,7 @@ import dao.files.FileDao
 import dao.files.Reader
 import io.mockk.every
 import io.mockk.mockk
+import model.CommitId
 import model.File
 import org.junit.Before
 import org.junit.Test
@@ -22,9 +23,9 @@ class HeadRepositoryImplTest {
 
     @Test
     fun `getHead - retrieves the ref commit hash`() {
-        val expectedCommitId = "commit-id"
+        val expectedCommitId = CommitId.from("commit-id")
 
-        every { fileDao.readFile(eq(File.HEAD.path), any<Reader.() -> String?>()) } returns "ref: $expectedCommitId"
+        every { fileDao.readFile(eq(File.HEAD.path), any<Reader.() -> String?>()) } returns "ref: ${expectedCommitId.value}"
 
         val result = headRepositoryImpl.getHead()
 

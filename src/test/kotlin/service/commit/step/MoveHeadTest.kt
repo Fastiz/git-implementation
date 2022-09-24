@@ -6,6 +6,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import logger.TestLogger
+import model.CommitId
 import org.junit.Before
 import org.junit.Test
 import repository.head.HeadRepository
@@ -24,12 +25,12 @@ class MoveHeadTest {
 
     @Test
     fun `calls head repository`() {
-        val input = CreateCommitOutput(commitId = "commit-id")
+        val input = CreateCommitOutput(commitId = CommitId.from("commit-id"))
 
         every { headRepository.setHead(any()) } just runs
 
         moveHead.execute(input)
 
-        verify { headRepository.setHead("commit-id") }
+        verify { headRepository.setHead(CommitId.from("commit-id")) }
     }
 }

@@ -1,5 +1,7 @@
 package repository.commit
 
+import model.CommitId
+import model.TreeId
 import org.junit.Test
 import repository.commit.CommitContentFormatter.formatCommitMessage
 import repository.commit.CommitContentFormatter.parseCommitMessage
@@ -10,8 +12,8 @@ class CommitContentFormatterTest {
     @Test
     fun `formatCommitMessage - formats the commit correctly`() {
         val result = formatCommitMessage(
-            "tree-id",
-            "parent-id",
+            TreeId.from("tree-id"),
+            CommitId.from("parent-id"),
             "message",
         )
 
@@ -32,11 +34,11 @@ class CommitContentFormatterTest {
                 "\n" +
                 "message"
 
-        val result = parseCommitMessage("commit-id", commitContent)
+        val result = parseCommitMessage(CommitId.from("commit-id"), commitContent)
 
-        assertEquals("tree-id", result.treeId)
-        assertEquals("parent-id", result.parentId)
-        assertEquals("commit-id", result.id)
+        assertEquals(TreeId.from("tree-id"), result.treeId)
+        assertEquals(CommitId.from("parent-id"), result.parentId)
+        assertEquals(CommitId.from("commit-id"), result.id)
         assertEquals("message", result.message)
     }
 }

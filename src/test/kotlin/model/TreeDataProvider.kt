@@ -2,7 +2,7 @@ package model
 
 object TreeDataProvider {
     fun buildTree(
-        id: String = "tree-id",
+        id: TreeId = TreeId.from("tree-id"),
         entries: List<TreeEntry> = emptyList()
     ): Tree {
         return Tree(

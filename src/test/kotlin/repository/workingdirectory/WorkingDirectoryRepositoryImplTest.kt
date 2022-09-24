@@ -7,6 +7,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import model.FileBlobDataProvider.buildFileBlob
+import model.FileBlobId
 import org.junit.Before
 import org.junit.Test
 
@@ -38,9 +39,9 @@ class WorkingDirectoryRepositoryImplTest {
     fun `bringBlob - calls file dao`() {
         every { fileDao.copyFile(any(), any()) } just runs
 
-        val fileBlob = buildFileBlob(id = "id", path = "path")
+        val fileBlob = buildFileBlob(id = FileBlobId.from("id"), path = "path")
         workingDirectoryRepositoryImpl.bringBlob(fileBlob)
 
-        verify { fileDao.copyFile(origin = "./.fastiz-git/objects/id", target = "./path" ) }
+        verify { fileDao.copyFile(origin = "./.fastiz-git/objects/id", target = "./path") }
     }
 }

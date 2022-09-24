@@ -13,8 +13,8 @@ object TreeContentFormatter {
 
         treeInput.entries.forEach {
             when (it) {
-                is FileTreeEntry -> sb.appendLine("blob ${it.fileBlobId} ${it.path}")
-                is SubtreeTreeEntry -> sb.appendLine("tree ${it.subtreeId} ${it.path}")
+                is FileTreeEntry -> sb.appendLine("blob ${it.fileBlobId.value} ${it.path}")
+                is SubtreeTreeEntry -> sb.appendLine("tree ${it.subtreeId.value} ${it.path}")
             }
         }
 

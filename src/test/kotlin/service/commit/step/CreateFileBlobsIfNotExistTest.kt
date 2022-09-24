@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import logger.TestLogger
 import model.FileBlob
+import model.FileBlobId
 import org.junit.Before
 import org.junit.Test
 import repository.blob.FileBlobRepository
@@ -31,7 +32,7 @@ class CreateFileBlobsIfNotExistTest {
         val input = CreateFileBlobsIfNotExistInput(stagedFiles = stagedFiles)
 
         for (file in stagedFiles) {
-            every { fileBlobRepository.createIfNotExists(file) } returns "$file-id"
+            every { fileBlobRepository.createIfNotExists(file) } returns FileBlobId.from("$file-id")
         }
 
         val result = createFileBlobsIfNotExist.execute(input)
@@ -42,8 +43,8 @@ class CreateFileBlobsIfNotExistTest {
 
         assertEquals(
             listOf(
-                FileBlob(path = "file-1.kt", id = "file-1.kt-id"),
-                FileBlob(path = "file-2.kt", id = "file-2.kt-id"),
+                FileBlob(path = "file-1.kt", id = FileBlobId.from("file-1.kt-id")),
+                FileBlob(path = "file-2.kt", id = FileBlobId.from("file-2.kt-id")),
             ),
             result.fileBlobList
         )

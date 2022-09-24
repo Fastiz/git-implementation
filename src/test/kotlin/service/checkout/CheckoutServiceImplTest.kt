@@ -8,6 +8,7 @@ import io.mockk.verify
 import model.CommitDataProvider.buildCommit
 import model.CommitId
 import model.FileBlobDataProvider.buildFileBlob
+import model.FileBlobId
 import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
 import org.junit.Before
@@ -41,8 +42,8 @@ class CheckoutServiceImplTest {
 
     @Test
     fun `run - calls dependencies`() {
-        val blob1 = buildFileBlob(id = "blob-1")
-        val blob2 = buildFileBlob(id = "blob-2")
+        val blob1 = buildFileBlob(id = FileBlobId.from("blob-1"))
+        val blob2 = buildFileBlob(id = FileBlobId.from("blob-2"))
         val tree = buildTree(
             entries = listOf(
                 FileTreeEntry(path = blob1.path, fileBlobId = blob1.id),
