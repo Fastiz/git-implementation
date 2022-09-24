@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import logger.TestLogger
 import model.CommitDataProvider.buildCommit
+import model.CommitId
 import org.junit.Before
 import org.junit.Test
 import repository.commit.CommitRepository
@@ -31,17 +32,20 @@ class CreateCommitTest {
             treeId = "tree-id",
         )
 
-        every { headRepository.getHead() } returns "parent-id"
-        every { commitRepository.get(any()) } returns buildCommit(id = "parent-id")
-        every { commitRepository.create(any(), any(), any()) } returns "commit-id"
+        val parentId = CommitId.from("parent-id")
+        val commitId = CommitId.from("commit-id")
+
+        every { headRepository.getHead() } returns parentId
+        every { commitRepository.get(any()) } returns buildCommit(id = parentId)
+        every { commitRepository.create(any(), any(), any()) } returns commitId
 
         val result = createCommit.execute(input)
 
-        assertEquals("commit-id", result.commitId)
+        assertEquals(commitId, result.commitId)
         verify {
             commitRepository.create(
                 treeId = "tree-id",
-                parentId = "parent-id",
+                parentCommitId = parentId,
                 message = ""
             )
         }

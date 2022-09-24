@@ -6,6 +6,7 @@ import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
 import model.CommitDataProvider.buildCommit
+import model.CommitId
 import model.FileBlobDataProvider.buildFileBlob
 import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
@@ -24,7 +25,7 @@ class CheckoutServiceImplTest {
     private lateinit var checkoutServiceImpl: CheckoutServiceImpl
 
     @Before
-    fun before(){
+    fun before() {
         workingDirectoryRepository = mockk()
         headRepository = mockk()
         treeRepository = mockk()
@@ -39,7 +40,7 @@ class CheckoutServiceImplTest {
     }
 
     @Test
-    fun `run - calls dependencies`(){
+    fun `run - calls dependencies`() {
         val blob1 = buildFileBlob(id = "blob-1")
         val blob2 = buildFileBlob(id = "blob-2")
         val tree = buildTree(
@@ -48,9 +49,10 @@ class CheckoutServiceImplTest {
                 FileTreeEntry(path = blob2.path, fileBlobId = blob2.id),
             )
         )
+        val commitId = CommitId.from("commit-id")
 
         every { workingDirectoryRepository.clear() } just runs
-        every { commitRepository.get(any()) } returns buildCommit(id = "commit-id")
+        every { commitRepository.get(any()) } returns buildCommit(id = commitId)
         every { treeRepository.get(any()) } returns tree
         every { workingDirectoryRepository.bringBlob(any()) } just runs
         every { headRepository.setHead(any()) } just runs
@@ -58,7 +60,7 @@ class CheckoutServiceImplTest {
         checkoutServiceImpl.run("commit-id")
 
         verify { workingDirectoryRepository.clear() }
-        verify { headRepository.setHead("commit-id") }
+        verify { headRepository.setHead(commitId) }
         verify { workingDirectoryRepository.bringBlob(blob1) }
         verify { workingDirectoryRepository.bringBlob(blob2) }
     }

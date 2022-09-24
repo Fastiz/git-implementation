@@ -1,12 +1,13 @@
 package service.log
 
 import model.Commit
+import model.CommitId
 import repository.commit.CommitRepository
 
 class CommitHistoryFactory(
     private val commitRepository: CommitRepository
 ) {
-    fun create(startCommitId: String): CommitHistoryIterable {
+    fun create(startCommitId: CommitId): CommitHistoryIterable {
         return CommitHistoryIterable(
             startCommitId
         ) { commitId -> commitRepository.get(commitId) }
@@ -14,8 +15,8 @@ class CommitHistoryFactory(
 }
 
 class CommitHistoryIterable(
-    private val startCommitId: String,
-    private val commitSupplier: (commitId: String) -> Commit
+    private val startCommitId: CommitId,
+    private val commitSupplier: (commitId: CommitId) -> Commit
 ) : Iterable<Commit> {
     override fun iterator(): Iterator<Commit> {
         return CommitHistoryIterator(
@@ -25,10 +26,10 @@ class CommitHistoryIterable(
     }
 
     private class CommitHistoryIterator(
-        startCommitId: String,
-        private val commitSupplier: (commitId: String) -> Commit
+        startCommitId: CommitId,
+        private val commitSupplier: (commitId: CommitId) -> Commit
     ) : Iterator<Commit> {
-        private var nextCommit: String?
+        private var nextCommit: CommitId?
 
         init {
             nextCommit = startCommitId

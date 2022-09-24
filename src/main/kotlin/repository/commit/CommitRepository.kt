@@ -1,15 +1,14 @@
 package repository.commit
 
 import model.Commit
-
-typealias Hash = String
+import model.CommitId
 
 interface CommitRepository {
     fun create(
         treeId: String,
-        parentId: String?,
+        parentCommitId: CommitId?,
         message: String
-    ): Hash
+    ): CommitId
 
-    fun get(commitId: Hash): Commit
+    fun get(commitId: CommitId): Commit
 }

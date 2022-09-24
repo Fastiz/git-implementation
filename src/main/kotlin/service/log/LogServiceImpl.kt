@@ -19,7 +19,7 @@ class LogServiceImpl(
         val commitHistory = commitHistoryFactory.create(headId)
 
         for (commit in commitHistory) {
-            logger.print(LogItemFormatter.formatLogItem(commit.id))
+            logger.print(LogItemFormatter.formatLogItem(commit.id.value))
         }
     }
 }

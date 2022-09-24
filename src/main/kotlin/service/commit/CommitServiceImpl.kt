@@ -1,6 +1,7 @@
 package service.commit
 
 import logger.Logger
+import model.CommitId
 import model.Directory
 import model.LambdaStep
 import model.StepExecutorBuilder
@@ -18,8 +19,8 @@ class CommitServiceImpl(
     private val moveHead: MoveHead,
     private val logger: Logger
 ) : CommitService {
-    private val logCommitStep = LambdaStep<String, Unit> {
-        logger.print("Commit created with hash: $it")
+    private val logCommitStep = LambdaStep<CommitId, Unit> {
+        logger.print("Commit created with hash: ${it.value}")
     }
 
     override fun run(stagedFiles: List<String>) {

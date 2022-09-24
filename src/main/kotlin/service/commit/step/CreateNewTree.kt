@@ -1,6 +1,7 @@
 package service.commit.step
 
 import logger.Logger
+import model.CommitId
 import model.Directory
 import model.FileBlob
 import model.FileTreeEntry
@@ -53,7 +54,7 @@ class CreateNewTree(
         return OutputCreateNewTree(treeId = treeId)
     }
 
-    private fun getGroupedFilesFromCurrentTree(currentCommitId: String): Map<String, List<FileBlob>> {
+    private fun getGroupedFilesFromCurrentTree(currentCommitId: CommitId): Map<String, List<FileBlob>> {
         val currentCommit = commitRepository.get(currentCommitId)
 
         val currentTree = treeRepository.get(currentCommit.treeId)

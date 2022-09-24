@@ -1,16 +1,17 @@
 package repository.commit
 
 import model.Commit
+import model.CommitId
 
 object CommitContentFormatter {
     fun formatCommitMessage(
         treeId: String,
-        parentId: String?,
+        parentId: CommitId?,
         message: String
     ): String {
         val sb = StringBuilder()
 
-        val parentIdText = parentId ?: ""
+        val parentIdText = parentId?.value ?: ""
 
         sb.appendLine("tree $treeId")
         sb.appendLine("parent $parentIdText")
@@ -21,7 +22,7 @@ object CommitContentFormatter {
     }
 
     fun parseCommitMessage(
-        commitId: String,
+        commitId: CommitId,
         commit: String
     ): Commit {
         val lines = commit.split("\n")
@@ -33,7 +34,7 @@ object CommitContentFormatter {
         val parentId = if (readParentId == "") {
             null
         } else {
-            readParentId
+            CommitId.from(readParentId)
         }
 
         return Commit(

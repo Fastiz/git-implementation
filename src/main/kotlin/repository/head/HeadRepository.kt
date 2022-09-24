@@ -1,9 +1,9 @@
 package repository.head
 
-typealias Hash = String
+import model.CommitId
 
 interface HeadRepository {
-    fun getHead(): Hash?
+    fun getHead(): CommitId?
 
-    fun setHead(commitId: String)
+    fun setHead(commitId: CommitId)
 }

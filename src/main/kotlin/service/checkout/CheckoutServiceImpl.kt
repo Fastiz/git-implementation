@@ -1,5 +1,6 @@
 package service.checkout
 
+import model.CommitId
 import model.FileBlob
 import model.FileTreeEntry
 import model.SubtreeTreeEntry
@@ -16,16 +17,18 @@ class CheckoutServiceImpl(
     private val commitRepository: CommitRepository
 ) : CheckoutService {
     override fun run(id: String) {
+        val commitId = CommitId.from(id)
+
         workingDirectoryRepository.clear()
 
-        val treeId = commitRepository.get(id).treeId
+        val treeId = commitRepository.get(commitId).treeId
         val tree = treeRepository.get(treeId)
 
         sequenceFromTree(tree).forEach {
             workingDirectoryRepository.bringBlob(it)
         }
 
-        headRepository.setHead(id)
+        headRepository.setHead(commitId)
     }
 
     private fun sequenceFromTree(tree: Tree): Sequence<FileBlob> {

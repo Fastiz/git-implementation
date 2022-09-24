@@ -2,9 +2,9 @@ package model
 
 object CommitDataProvider {
     fun buildCommit(
-        id: String = "commit-id",
+        id: CommitId = CommitId.from("commit-id"),
         message: String = "message",
-        parentId: String = "parent-id",
+        parentId: CommitId = CommitId.from("parent-id"),
         treeId: String = "tree-id",
     ): Commit {
         return Commit(

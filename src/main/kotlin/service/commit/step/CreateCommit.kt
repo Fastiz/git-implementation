@@ -1,12 +1,13 @@
 package service.commit.step
 
 import logger.Logger
+import model.CommitId
 import model.Step
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 
 data class CreateCommitOutput(
-    val commitId: String
+    val commitId: CommitId
 )
 
 class CreateCommit(
@@ -23,7 +24,7 @@ class CreateCommit(
 
         val commitId = commitRepository.create(
             treeId = input.treeId,
-            parentId = currentCommit,
+            parentCommitId = currentCommit,
             message = ""
         )
 

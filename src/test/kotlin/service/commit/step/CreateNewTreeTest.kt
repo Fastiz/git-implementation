@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.mockk.slot
 import logger.TestLogger
 import model.CommitDataProvider.buildCommit
+import model.CommitId
 import model.FileBlob
 import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
@@ -44,7 +45,7 @@ class CreateNewTreeTest {
             FileBlob(id = "id-1", path = "./file1"),
             FileBlob(id = "id-2", path = "./file2"),
         )
-        val currentCommitId = UUID.randomUUID().toString()
+        val currentCommitId = CommitId.from("commit-id")
         val currentCommitTreeId = UUID.randomUUID().toString()
         val currentCommit = buildCommit(id = currentCommitId, treeId = currentCommitTreeId)
         val currentTree = buildTree(entries = emptyList())
