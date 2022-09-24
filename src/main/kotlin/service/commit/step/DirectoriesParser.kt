@@ -5,7 +5,9 @@ object DirectoriesParser {
         val directorySegments = directory.split("/")
 
         val result = mutableSetOf<String>()
-        val descendants = allDirectories.filter { it.contains(directory) }
+        val descendants = allDirectories
+            .filter { it.contains(directory) }
+            .filter { it != directory }
 
         descendants.forEach {
             val segments = it.split("/")
