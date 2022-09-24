@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout_and_build:
+  checkout_and_setup:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -14,23 +14,19 @@ jobs:
       with:
         distribution: temurin
         java-version: 11
-
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-
-    - name: Build
-      run: ./gradlew build
     
   ktlintcheck:
     runs-on: ubuntu-latest
-    needs: checkout_and_build
+    needs: checkout_and_setup
     steps:
     - name: ktlintCheck
       run: ./gradlew ktlintCheck
 
   test:
     runs-on: ubuntu-latest
-    needs: checkout_and_build
+    needs: checkout_and_setup
     steps:
     - name: Test
       run: ./gradlew test
