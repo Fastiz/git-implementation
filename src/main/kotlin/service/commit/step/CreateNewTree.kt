@@ -1,5 +1,6 @@
 package service.commit.step
 
+import logger.Logger
 import model.Directory
 import model.FileBlob
 import model.FileTreeEntry
@@ -23,6 +24,7 @@ class CreateNewTree(
     private val commitRepository: CommitRepository,
     private val headRepository: HeadRepository,
     private val treeRepository: TreeRepository,
+    private val logger: Logger,
 ) : Step<CreateFileBlobsIfNotExistOutput, OutputCreateNewTree> {
     override fun execute(input: CreateFileBlobsIfNotExistOutput): OutputCreateNewTree {
         val stagingTreeGroupedFiles = groupFilesByFolder(input.fileBlobList)
@@ -35,7 +37,11 @@ class CreateNewTree(
             override = stagingTreeGroupedFiles
         )
 
+        logger.printDebug("CreateNewTree - merged group files to include in tree: $mergedGroupedFiles")
+
         val treeId = createTreesFromGroupedFiles(mergedGroupedFiles)
+
+        logger.printDebug("CreateNewTree - created root tree ($treeId)")
 
         return OutputCreateNewTree(treeId = treeId)
     }
@@ -88,6 +94,8 @@ class CreateNewTree(
         val entries = fileEntries + subtreeEntries
 
         val treeInput = TreeInput(entries = entries)
+
+        logger.printDebug("CreateNewTree - creating tree with the following input: $treeInput")
 
         val treeId = treeRepository.create(treeInput)
 

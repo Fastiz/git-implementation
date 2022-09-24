@@ -23,14 +23,14 @@ class MainTest {
         val args = listOf("invalid")
 
         assertFailsWith<Exception> {
-            main.run(args.toTypedArray())
+            main.run(args)
         }
 
     }
 
     @Test
     fun `call run commit`() {
-        val args = listOf("commit", "a", "b").toTypedArray()
+        val args = listOf("commit", "a", "b")
 
         every { commandRunner.commit(any()) } just runs
 
@@ -41,7 +41,7 @@ class MainTest {
 
     @Test
     fun `call run init`() {
-        val args = listOf("init").toTypedArray()
+        val args = listOf("init")
 
         every { commandRunner.init() } just runs
 
@@ -52,7 +52,7 @@ class MainTest {
 
     @Test
     fun `call run checkout`() {
-        val args = listOf("checkout", "commit-id").toTypedArray()
+        val args = listOf("checkout", "commit-id")
 
         every { commandRunner.checkout(any()) } just runs
 
@@ -63,7 +63,7 @@ class MainTest {
 
     @Test
     fun `call run log`() {
-        val args = listOf("log").toTypedArray()
+        val args = listOf("log")
 
         every { commandRunner.log() } just runs
 

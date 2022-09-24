@@ -1,5 +1,7 @@
 package logger
 
 interface Logger {
-    fun println(line: String)
+    fun print(line: String)
+
+    fun printDebug(line: String)
 }

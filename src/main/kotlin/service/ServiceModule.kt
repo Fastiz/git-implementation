@@ -27,25 +27,29 @@ object ServiceModule {
     private val commitSteps = org.koin.dsl.module {
         single {
             CreateFileBlobsIfNotExist(
-                fileBlobRepository = get()
+                fileBlobRepository = get(),
+                logger = get(),
             )
         }
         single {
             CreateNewTree(
                 commitRepository = get(),
                 headRepository = get(),
-                treeRepository = get()
+                treeRepository = get(),
+                logger = get(),
             )
         }
         single {
             CreateCommit(
                 headRepository = get(),
-                commitRepository = get()
+                commitRepository = get(),
+                logger = get(),
             )
         }
         single {
             MoveHead(
-                headRepository = get()
+                headRepository = get(),
+                logger = get(),
             )
         }
     }

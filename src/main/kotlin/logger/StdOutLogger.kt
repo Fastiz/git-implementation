@@ -1,7 +1,9 @@
 package logger
 
 class StdOutLogger : Logger {
-    override fun println(line: String) {
-        kotlin.io.println(line)
+    override fun print(line: String) {
+        println(line)
     }
+
+    override fun printDebug(line: String) {}
 }

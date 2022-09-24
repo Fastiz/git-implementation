@@ -1,12 +1,9 @@
 package repository.head
 
 import dao.files.FileDao
-import dao.head.HeadDao
-import io.mockk.every
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class HeadRepositoryImplTest {
     private lateinit var fileDao: FileDao

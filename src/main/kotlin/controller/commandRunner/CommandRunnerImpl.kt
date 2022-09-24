@@ -11,7 +11,7 @@ class CommandRunnerImpl(
     private val checkoutService: CheckoutService,
     private val logService: LogService,
 ) : CommandRunner {
-    override fun commit(args: Array<String>) {
+    override fun commit(args: List<String>) {
         val parameters = args.toList().drop(1)
 
         commitService.run(parameters)
@@ -21,7 +21,7 @@ class CommandRunnerImpl(
         initService.run()
     }
 
-    override fun checkout(args: Array<String>) {
+    override fun checkout(args: List<String>) {
         val id = args.drop(1)[0]
 
         checkoutService.run(id)

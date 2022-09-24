@@ -3,6 +3,7 @@ package service.commit.step
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import logger.TestLogger
 import model.CommitDataProvider.buildCommit
 import model.FileBlob
 import model.FileTreeEntry
@@ -20,6 +21,8 @@ class CreateNewTreeTest {
     private lateinit var treeRepository: TreeRepository
     private lateinit var commitRepository: CommitRepository
     private lateinit var headRepository: HeadRepository
+    private var logger = TestLogger()
+
     private lateinit var createNewTree: CreateNewTree
 
     @Before
@@ -30,7 +33,8 @@ class CreateNewTreeTest {
         createNewTree = CreateNewTree(
             commitRepository = commitRepository,
             headRepository = headRepository,
-            treeRepository = treeRepository
+            treeRepository = treeRepository,
+            logger = logger,
         )
     }
 

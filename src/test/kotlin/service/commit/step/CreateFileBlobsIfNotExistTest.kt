@@ -3,32 +3,25 @@ package service.commit.step
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import model.CommitDataProvider.buildCommit
+import logger.TestLogger
 import model.FileBlob
-import model.TreeDataProvider.buildTree
 import org.junit.Before
 import org.junit.Test
 import repository.blob.FileBlobRepository
-import repository.commit.CommitRepository
-import repository.head.HeadRepository
-import repository.tree.TreeRepository
 import kotlin.test.assertEquals
 
 class CreateFileBlobsIfNotExistTest {
-    private lateinit var treeRepository: TreeRepository
-    private lateinit var commitRepository: CommitRepository
-    private lateinit var headRepository: HeadRepository
     private lateinit var fileBlobRepository: FileBlobRepository
+    private var logger = TestLogger()
+
     private lateinit var createFileBlobsIfNotExist: CreateFileBlobsIfNotExist
 
     @Before
     fun before() {
-        treeRepository = mockk()
-        commitRepository = mockk()
-        headRepository = mockk()
         fileBlobRepository = mockk()
         createFileBlobsIfNotExist = CreateFileBlobsIfNotExist(
-            fileBlobRepository = fileBlobRepository
+            fileBlobRepository = fileBlobRepository,
+            logger = logger
         )
     }
 
@@ -36,14 +29,7 @@ class CreateFileBlobsIfNotExistTest {
     fun `calls blob repository once for each staged file and returns the correct output`() {
         val stagedFiles = listOf("file-1.kt", "file-2.kt")
         val input = CreateFileBlobsIfNotExistInput(stagedFiles = stagedFiles)
-        val currentCommit = buildCommit(
-            id = "current-commit-id"
-        )
-        val currentTree = buildTree()
 
-        every { headRepository.getHead() } returns "current-commit-id"
-        every { commitRepository.get(any()) } returns currentCommit
-        every { treeRepository.get(any()) } returns currentTree
         for (file in stagedFiles) {
             every { fileBlobRepository.createIfNotExists(file) } returns "$file-id"
         }

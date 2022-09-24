@@ -1,5 +1,6 @@
 package logger
 
 class TestLogger : Logger {
-    override fun println(line: String) {}
+    override fun print(line: String) {}
+    override fun printDebug(line: String) {}
 }

@@ -17,7 +17,7 @@ class CommitServiceImpl(
     private val logger: Logger
 ) : CommitService {
     private val logCommitStep = LambdaStep<String, Unit> {
-        logger.println("Commit created with hash: $it")
+        logger.print("Commit created with hash: $it")
     }
 
     override fun run(stagedFiles: List<String>) {

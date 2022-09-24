@@ -3,6 +3,7 @@ package service.commit.step
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import logger.TestLogger
 import model.CommitDataProvider.buildCommit
 import org.junit.Before
 import org.junit.Test
@@ -13,13 +14,15 @@ import kotlin.test.assertEquals
 class CreateCommitTest {
     private lateinit var commitRepository: CommitRepository
     private lateinit var headRepository: HeadRepository
+    private var logger = TestLogger()
+
     private lateinit var createCommit: CreateCommit
 
     @Before
     fun before() {
         commitRepository = mockk()
         headRepository = mockk()
-        createCommit = CreateCommit(headRepository, commitRepository)
+        createCommit = CreateCommit(headRepository, commitRepository, logger)
     }
 
     @Test

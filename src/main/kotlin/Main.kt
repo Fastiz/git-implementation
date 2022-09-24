@@ -1,7 +1,7 @@
 import controller.commandRunner.CommandRunner
 import controller.commandRunner.ControllerModule
 import dao.DaoModule
-import logger.Logger
+import logger.DebugLogger
 import logger.StdOutLogger
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -11,8 +11,22 @@ import repository.RepositoryModule
 import service.ServiceModule
 
 fun main(args: Array<String>) {
+    val arguments = args.toMutableList()
+
     startKoin {
+        val logger = if (arguments.contains("--debug")) {
+            arguments.remove("--debug")
+            DebugLogger()
+        } else {
+            StdOutLogger()
+        }
+
+        val loggerModule = module {
+            single { logger }
+        }
+
         modules(
+            loggerModule,
             DaoModule.module,
             RepositoryModule.module,
             ServiceModule.module,
@@ -25,18 +39,17 @@ fun main(args: Array<String>) {
         val commandRunner = get<CommandRunner>()
     }
 
-    Main(commandRunner = component.commandRunner).run(args)
+    Main(commandRunner = component.commandRunner).run(arguments)
 }
 
 object MainModule {
     val module = module {
         single { Main(commandRunner = get()) }
-        single<Logger> { StdOutLogger() }
     }
 }
 
 class Main(private val commandRunner: CommandRunner) {
-    fun run(args: Array<String>) {
+    fun run(args: List<String>) {
         if (args.isEmpty()) {
             throw Exception("No command was specified")
         }

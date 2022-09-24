@@ -37,7 +37,7 @@ class CommandRunnerImplTest {
 
     @Test
     fun `calls commit service`() {
-        val args = listOf("commit", "a", "b").toTypedArray()
+        val args = listOf("commit", "a", "b")
 
         every { commitService.run(any()) } just runs
 
@@ -59,7 +59,7 @@ class CommandRunnerImplTest {
     fun `calls checkout service`() {
         every { checkoutService.run(any()) } just runs
 
-        commandRunnerImpl.checkout(listOf("checkout", "commit-id").toTypedArray())
+        commandRunnerImpl.checkout(listOf("checkout", "commit-id"))
 
         verify { checkoutService.run("commit-id") }
     }
