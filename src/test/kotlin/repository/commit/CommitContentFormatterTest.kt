@@ -18,10 +18,10 @@ class CommitContentFormatterTest {
         )
 
         val expected = "" +
-                "tree tree-id\n" +
-                "parent parent-id\n" +
-                "\n" +
-                "message\n"
+            "tree tree-id\n" +
+            "parent parent-id\n" +
+            "\n" +
+            "message\n"
 
         assertEquals(expected, result)
     }
@@ -29,10 +29,10 @@ class CommitContentFormatterTest {
     @Test
     fun `parseCommitMessage - parses the commit correctly`() {
         val commitContent = "" +
-                "tree tree-id\n" +
-                "parent parent-id\n" +
-                "\n" +
-                "message"
+            "tree tree-id\n" +
+            "parent parent-id\n" +
+            "\n" +
+            "message"
 
         val result = parseCommitMessage(CommitId.from("commit-id"), commitContent)
 

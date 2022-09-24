@@ -22,8 +22,8 @@ class TreeContentFormatterTest {
         val result = formatTreeContent(treeInput)
 
         val expected = "" +
-                "blob id-1 file-1.kt\n" +
-                "blob id-2 file-2.kt\n"
+            "blob id-1 file-1.kt\n" +
+            "blob id-2 file-2.kt\n"
 
         assertEquals(expected, result)
     }
@@ -31,8 +31,8 @@ class TreeContentFormatterTest {
     @Test
     fun `mapTreeFromBlob - create correct tree`() {
         val treeContent = "" +
-                "blob id-1 file-1.kt\n" +
-                "blob id-2 file-2.kt\n"
+            "blob id-1 file-1.kt\n" +
+            "blob id-2 file-2.kt\n"
 
         val result = mapTreeFromBlob(TreeId.from("tree-id"), treeContent)
 
