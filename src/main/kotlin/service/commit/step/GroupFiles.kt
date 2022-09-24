@@ -5,6 +5,7 @@ import model.FileBlob
 import model.FileTreeEntry
 import model.SubtreeTreeEntry
 import model.Tree
+import model.TreeId
 
 object GroupFiles {
     fun groupFilesByFolder(fileBlobList: List<FileBlob>): Map<String, List<FileBlob>> {
@@ -23,7 +24,7 @@ object GroupFiles {
 
     fun groupFilesByFolderFromTree(
         tree: Tree,
-        treeProvider: (treeId: String) -> Tree,
+        treeProvider: (treeId: TreeId) -> Tree,
     ): Map<String, List<FileBlob>> {
         return groupFilesByFolderFromTreeRec(
             currentPath = Directory.ROOT.path,
@@ -35,7 +36,7 @@ object GroupFiles {
     private fun groupFilesByFolderFromTreeRec(
         currentPath: String,
         currentTree: Tree,
-        treeProvider: (treeId: String) -> Tree,
+        treeProvider: (treeId: TreeId) -> Tree,
     ): Map<String, List<FileBlob>> {
         val result = mutableMapOf<String, List<FileBlob>>()
         val fileBlobList = mutableListOf<FileBlob>()

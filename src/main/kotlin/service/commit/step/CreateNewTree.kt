@@ -7,6 +7,7 @@ import model.FileBlob
 import model.FileTreeEntry
 import model.Step
 import model.SubtreeTreeEntry
+import model.TreeId
 import model.TreeInput
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
@@ -18,7 +19,7 @@ import service.commit.step.GroupFiles.groupFilesByFolderFromTree
 import service.commit.step.GroupFiles.mergeGroupedFiles
 
 data class OutputCreateNewTree(
-    val treeId: String,
+    val treeId: TreeId,
 )
 
 class CreateNewTree(
@@ -64,9 +65,9 @@ class CreateNewTree(
         }
     }
 
-    private fun createTreesFromGroupedFiles(groupedFiles: Map<String, List<FileBlob>>): String {
+    private fun createTreesFromGroupedFiles(groupedFiles: Map<String, List<FileBlob>>): TreeId {
         val allDirectories = getAllDirectories(groupedFiles.keys.toList())
-        val createdTrees = mutableMapOf<String, String>()
+        val createdTrees = mutableMapOf<String, TreeId>()
 
         return createTreesFromGroupedFilesRec(
             currentDirectory = Directory.ROOT.path,
@@ -80,8 +81,8 @@ class CreateNewTree(
         currentDirectory: String,
         allDirectories: Set<String>,
         groupedFiles: Map<String, List<FileBlob>>,
-        createdTrees: MutableMap<String, String>,
-    ): String {
+        createdTrees: MutableMap<String, TreeId>,
+    ): TreeId {
         val children = getChildrenDirectories(currentDirectory, allDirectories)
 
         val subtreeEntries = children.map { child ->

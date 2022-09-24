@@ -2,10 +2,11 @@ package repository.commit
 
 import model.Commit
 import model.CommitId
+import model.TreeId
 
 object CommitContentFormatter {
     fun formatCommitMessage(
-        treeId: String,
+        treeId: TreeId,
         parentId: CommitId?,
         message: String
     ): String {
@@ -13,7 +14,7 @@ object CommitContentFormatter {
 
         val parentIdText = parentId?.value ?: ""
 
-        sb.appendLine("tree $treeId")
+        sb.appendLine("tree ${treeId.value}")
         sb.appendLine("parent $parentIdText")
         sb.appendLine()
         sb.appendLine(message)
@@ -39,7 +40,7 @@ object CommitContentFormatter {
 
         return Commit(
             id = commitId,
-            treeId = treeId,
+            treeId = TreeId.from(treeId),
             parentId = parentId,
             message = message
         )

@@ -5,7 +5,7 @@ object CommitDataProvider {
         id: CommitId = CommitId.from("commit-id"),
         message: String = "message",
         parentId: CommitId = CommitId.from("parent-id"),
-        treeId: String = "tree-id",
+        treeId: TreeId = TreeId.from("tree-id"),
     ): Commit {
         return Commit(
             id = id,

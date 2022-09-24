@@ -10,6 +10,7 @@ import model.FileBlob
 import model.FileBlobId
 import model.FileTreeEntry
 import model.TreeDataProvider.buildTree
+import model.TreeId
 import model.TreeInput
 import org.junit.Before
 import org.junit.Test
@@ -47,10 +48,10 @@ class CreateNewTreeTest {
             FileBlob(id = FileBlobId.from("id-2"), path = "./file2"),
         )
         val currentCommitId = CommitId.from("commit-id")
-        val currentCommitTreeId = UUID.randomUUID().toString()
+        val currentCommitTreeId = TreeId.from("current-tree-id")
         val currentCommit = buildCommit(id = currentCommitId, treeId = currentCommitTreeId)
         val currentTree = buildTree(entries = emptyList())
-        val resultTreeId = UUID.randomUUID().toString()
+        val resultTreeId = TreeId.from("result-tree-id")
 
         val input = CreateFileBlobsIfNotExistOutput(fileBlobList = fileBlobList)
 

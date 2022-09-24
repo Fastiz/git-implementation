@@ -6,6 +6,7 @@ import io.mockk.verify
 import logger.TestLogger
 import model.CommitDataProvider.buildCommit
 import model.CommitId
+import model.TreeId
 import org.junit.Before
 import org.junit.Test
 import repository.commit.CommitRepository
@@ -29,7 +30,7 @@ class CreateCommitTest {
     @Test
     fun `calls commit repository and returns correctly`() {
         val input = OutputCreateNewTree(
-            treeId = "tree-id",
+            treeId = TreeId.from("tree-id"),
         )
 
         val parentId = CommitId.from("parent-id")
@@ -44,7 +45,7 @@ class CreateCommitTest {
         assertEquals(commitId, result.commitId)
         verify {
             commitRepository.create(
-                treeId = "tree-id",
+                treeId = TreeId.from("tree-id"),
                 parentCommitId = parentId,
                 message = ""
             )

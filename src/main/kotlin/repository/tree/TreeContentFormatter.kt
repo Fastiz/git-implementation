@@ -4,6 +4,7 @@ import model.FileBlobId
 import model.FileTreeEntry
 import model.SubtreeTreeEntry
 import model.Tree
+import model.TreeId
 import model.TreeInput
 
 object TreeContentFormatter {
@@ -20,7 +21,7 @@ object TreeContentFormatter {
         return sb.toString()
     }
 
-    fun mapTreeFromBlob(id: String, blob: String): Tree {
+    fun mapTreeFromBlob(id: TreeId, blob: String): Tree {
         val lines = blob.split("\n")
 
         val entries = lines.mapNotNull {
@@ -38,7 +39,7 @@ object TreeContentFormatter {
                     path = entityPath
                 )
                 "tree" -> SubtreeTreeEntry(
-                    subtreeId = entityId,
+                    subtreeId = TreeId.from(entityId),
                     path = entityPath
                 )
                 else -> {

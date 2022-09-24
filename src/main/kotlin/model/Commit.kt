@@ -10,5 +10,5 @@ data class Commit(
     val id: CommitId,
     val message: String,
     val parentId: CommitId?,
-    val treeId: String,
+    val treeId: TreeId,
 )
