@@ -1,10 +1,9 @@
 package service.commit.step
 
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.Test
 import service.commit.step.DirectoriesParser.getAllDirectories
 import service.commit.step.DirectoriesParser.getChildrenDirectories
+import kotlin.test.assertEquals
 
 internal class DirectoriesParserTest {
 

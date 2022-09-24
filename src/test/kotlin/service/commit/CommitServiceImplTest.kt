@@ -3,6 +3,7 @@ package service.commit
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import logger.TestLogger
 import org.junit.Before
 import org.junit.Test
 import service.commit.step.CreateCommit
@@ -19,6 +20,7 @@ class CommitServiceImplTest {
     private lateinit var createNewTree: CreateNewTree
     private lateinit var createCommit: CreateCommit
     private lateinit var moveHead: MoveHead
+    private val logger = TestLogger()
     private lateinit var commitServiceImpl: CommitServiceImpl
 
     @Before
@@ -31,7 +33,8 @@ class CommitServiceImplTest {
             createFileBlobsIfNotExist = createFileBlobsIfNotExist,
             createNewTree = createNewTree,
             createCommit = createCommit,
-            moveHead = moveHead
+            moveHead = moveHead,
+            logger = logger
         )
     }
 

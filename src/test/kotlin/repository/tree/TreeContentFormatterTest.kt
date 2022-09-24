@@ -1,6 +1,8 @@
 package repository.tree
 
-import model.FileBlob
+import model.FileTreeEntry
+import model.Tree
+import model.TreeInput
 import org.junit.Test
 import repository.tree.TreeContentFormatter.formatTreeContent
 import repository.tree.TreeContentFormatter.mapTreeFromBlob
@@ -9,12 +11,13 @@ import kotlin.test.assertEquals
 class TreeContentFormatterTest {
     @Test
     fun `formatTreeContent - creates correct string`() {
-        val stagedFiles = listOf(
-            FileBlob(path = "file-1.kt", id = "id-1"),
-            FileBlob(path = "file-2.kt", id = "id-2"),
+        val entries = listOf(
+            FileTreeEntry(path = "file-1.kt", fileBlobId = "id-1"),
+            FileTreeEntry(path = "file-2.kt", fileBlobId = "id-2"),
         )
+        val treeInput = TreeInput(entries = entries)
 
-        val result = formatTreeContent(stagedFiles)
+        val result = formatTreeContent(treeInput)
 
         val expected = "" +
                 "blob id-1 file-1.kt\n" +
@@ -31,13 +34,18 @@ class TreeContentFormatterTest {
 
         val result = mapTreeFromBlob("tree-id", treeContent)
 
+        val expectedTree = Tree(
+            id = "tree-id",
+            entries = listOf(
+                FileTreeEntry(path = "file-1.kt", fileBlobId = "id-1"),
+                FileTreeEntry(path = "file-2.kt", fileBlobId = "id-2"),
+            )
+        )
+
         assertEquals("tree-id", result.id)
         assertEquals(
-            listOf(
-                FileBlob(id = "id-1", path = "file-1.kt"),
-                FileBlob(id = "id-2", path = "file-2.kt"),
-            ),
-            result.fileBlobList
+            expectedTree,
+            result
         )
     }
 }

@@ -7,7 +7,7 @@ import model.FileTreeEntry
 import model.SubtreeTreeEntry
 import model.Tree
 import model.TreeDataProvider.buildTree
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 import service.commit.step.GroupFiles.groupFilesByFolder
 import service.commit.step.GroupFiles.groupFilesByFolderFromTree

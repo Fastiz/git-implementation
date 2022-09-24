@@ -20,8 +20,9 @@ class InitServiceImplTest {
     }
 
     @Test
-    fun `creates objects directory`(){
+    fun `creates objects directory`() {
         every { fileDao.createDirectory(any()) } just runs
+        every { fileDao.createFile(any()) } just runs
 
         initServiceImpl.run()
 
