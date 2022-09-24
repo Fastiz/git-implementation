@@ -16,7 +16,6 @@ object RepositoryModule {
     val module = module {
         single<FileBlobRepository> {
             FileBlobRepositoryImpl(
-                fileDao = get(),
                 objectsDao = get()
             )
         }
