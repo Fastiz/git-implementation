@@ -1,6 +1,8 @@
 package service
 
 import org.koin.dsl.module
+import repository.blob.FileBlobRepository
+import repository.blob.FileBlobRepositoryImpl
 import repository.index.IndexRepositoryImpl
 import service.add.AddService
 import service.add.AddServiceImpl
@@ -22,7 +24,8 @@ object ServiceModule {
     val module = module {
         single<AddService> {
             AddServiceImpl(
-                IndexRepositoryImpl()
+                fileBlobRepository = get(),
+                indexRepository = get(),
             )
         }
 

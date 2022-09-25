@@ -1,5 +1,7 @@
 package repository.index
 
+import model.FileBlob
+
 interface IndexRepository {
-    fun add(stagedFiles: List<String>)
+    fun add(stagedBlobs: List<FileBlob>)
 }
