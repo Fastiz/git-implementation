@@ -5,5 +5,7 @@ import model.CommitId
 interface HeadRepository {
     fun getHead(): CommitId?
 
-    fun setHead(commitId: CommitId)
+    fun setDetachedHead(commitId: CommitId)
+
+    fun setHead(ref: String)
 }

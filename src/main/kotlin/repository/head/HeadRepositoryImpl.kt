@@ -18,9 +18,15 @@ class HeadRepositoryImpl(
         return CommitId.from(refString)
     }
 
-    override fun setHead(commitId: CommitId) {
+    override fun setDetachedHead(commitId: CommitId) {
         fileDao.writeFile(head.path) {
             write(commitId.value)
+        }
+    }
+
+    override fun setHead(ref: String) {
+        fileDao.writeFile(head.path) {
+            write(ref)
         }
     }
 }

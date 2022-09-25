@@ -37,7 +37,11 @@ class CheckoutServiceImpl(
 
         indexRepository.set(sequenceFromTree.asIterable())
 
-        headRepository.setHead(commitId)
+        if(refCommit == null){
+            headRepository.setDetachedHead(commitId)
+        }else{
+            headRepository.setHead(id)
+        }
     }
 
     private fun sequenceFromTree(tree: Tree): Sequence<FileBlob> {
