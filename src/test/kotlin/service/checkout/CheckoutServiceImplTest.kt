@@ -16,10 +16,12 @@ import org.junit.Test
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 import repository.index.IndexRepository
+import repository.ref.RefRepository
 import repository.tree.TreeRepository
 import repository.workingdirectory.WorkingDirectoryRepository
 
 class CheckoutServiceImplTest {
+    private lateinit var refRepository: RefRepository
     private lateinit var workingDirectoryRepository: WorkingDirectoryRepository
     private lateinit var headRepository: HeadRepository
     private lateinit var treeRepository: TreeRepository
@@ -29,6 +31,7 @@ class CheckoutServiceImplTest {
 
     @Before
     fun before() {
+        refRepository = mockk()
         workingDirectoryRepository = mockk()
         headRepository = mockk()
         treeRepository = mockk()
@@ -36,6 +39,7 @@ class CheckoutServiceImplTest {
         indexRepository = mockk()
 
         checkoutServiceImpl = CheckoutServiceImpl(
+            refRepository = refRepository,
             workingDirectoryRepository = workingDirectoryRepository,
             headRepository = headRepository,
             treeRepository = treeRepository,
@@ -56,6 +60,7 @@ class CheckoutServiceImplTest {
         )
         val commitId = CommitId.from("commit-id")
 
+        every { refRepository.get(any()) } returns null
         every { workingDirectoryRepository.clear() } just runs
         every { commitRepository.get(any()) } returns buildCommit(id = commitId)
         every { treeRepository.get(any()) } returns tree

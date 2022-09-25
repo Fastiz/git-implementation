@@ -14,4 +14,8 @@ class RefRepositoryImpl(
             writeLine(commitId.value)
         }
     }
+
+    override fun get(refName: String): CommitId? {
+        TODO("Not yet implemented")
+    }
 }

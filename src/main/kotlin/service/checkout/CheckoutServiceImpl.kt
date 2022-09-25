@@ -8,10 +8,12 @@ import model.Tree
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
 import repository.index.IndexRepository
+import repository.ref.RefRepository
 import repository.tree.TreeRepository
 import repository.workingdirectory.WorkingDirectoryRepository
 
 class CheckoutServiceImpl(
+    private val refRepository: RefRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val headRepository: HeadRepository,
     private val treeRepository: TreeRepository,
@@ -19,7 +21,8 @@ class CheckoutServiceImpl(
     private val indexRepository: IndexRepository,
 ) : CheckoutService {
     override fun run(id: String) {
-        val commitId = CommitId.from(id)
+        val refCommit = refRepository.get(id)
+        val commitId = refCommit ?: CommitId.from(id)
 
         workingDirectoryRepository.clear()
 
