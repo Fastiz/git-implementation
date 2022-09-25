@@ -7,6 +7,8 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
+import logger.Logger
+import logger.TestLogger
 import model.File
 import model.FileBlob
 import model.FileBlobId
@@ -15,13 +17,16 @@ import org.junit.Test
 
 internal class IndexRepositoryImplTest {
     private lateinit var fileDao: FileDao
+    private lateinit var logger: Logger
     private lateinit var indexRepository: IndexRepository
 
     @Before
     fun beforeEach() {
         fileDao = mockk()
+        logger = TestLogger()
         indexRepository = IndexRepositoryImpl(
-            fileDao = fileDao
+            fileDao = fileDao,
+            logger = logger,
         )
     }
 
