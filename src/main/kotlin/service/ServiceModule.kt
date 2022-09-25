@@ -20,6 +20,7 @@ object ServiceModule {
     val module = module {
         single<AddService> {
             AddServiceImpl(
+                root = get(),
                 fileBlobRepository = get(),
                 indexRepository = get(),
             )

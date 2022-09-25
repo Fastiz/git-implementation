@@ -1,7 +1,7 @@
 package directory
 
 object DataProvider {
-    fun buildRoot(): Root = Root("")
+    fun buildRoot(path: String = ""): Root = Root(path)
 
     fun buildGit(): Git = Git(buildRoot())
 
