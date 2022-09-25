@@ -10,5 +10,6 @@ class InitServiceImpl(
     override fun run() {
         fileDao.createDirectory(Directory.OBJECTS.path)
         fileDao.createFile(File.HEAD.path)
+        fileDao.createFile(File.INDEX.path)
     }
 }

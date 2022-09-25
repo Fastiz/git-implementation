@@ -8,6 +8,7 @@ enum class Directory(val path: String) {
 
 enum class File(val path: String) {
     HEAD(Directory.GIT.extendPath("head")),
+    INDEX(Directory.GIT.extendPath("index"))
 }
 
 fun Directory.extendPath(filePath: String): String {
