@@ -1,21 +1,22 @@
 package repository.index
 
 import dao.files.FileDao
+import directory.Index
 import logger.Logger
 import logger.util.FileBlob.debugFileBlobs
-import model.File
 import model.FileBlob
 import repository.index.IndexLineFormatter.fileBlobToLine
 import repository.index.IndexLineFormatter.parseLineToBlob
 
 class IndexRepositoryImpl(
+    private val index: Index,
     private val fileDao: FileDao,
     private val logger: Logger,
 ) : IndexRepository {
     override fun add(stagedBlobs: Iterable<FileBlob>) {
         logger.printDebug("IndexRepositoryImpl")
 
-        val currentIndexLines = fileDao.readFile(File.INDEX.path) {
+        val currentIndexLines = fileDao.readFile(index.path) {
             readAllLines()
         }
 
@@ -40,7 +41,7 @@ class IndexRepositoryImpl(
         logger.printDebug("Merged blobs")
         logger.debugFileBlobs(result)
 
-        fileDao.writeFile(File.INDEX.path) {
+        fileDao.writeFile(index.path) {
             result
                 .map(::fileBlobToLine)
                 .forEach(::writeLine)
@@ -48,7 +49,7 @@ class IndexRepositoryImpl(
     }
 
     override fun set(stagedBlobs: Iterable<FileBlob>) {
-        fileDao.writeFile(File.INDEX.path) {
+        fileDao.writeFile(index.path) {
             stagedBlobs
                 .map(::fileBlobToLine)
                 .forEach(::writeLine)
@@ -56,7 +57,7 @@ class IndexRepositoryImpl(
     }
 
     override fun get(): Sequence<FileBlob> {
-        val currentIndexLines = fileDao.readFile(File.INDEX.path) {
+        val currentIndexLines = fileDao.readFile(index.path) {
             readAllLines()
         }
 

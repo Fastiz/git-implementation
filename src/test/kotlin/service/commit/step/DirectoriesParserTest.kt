@@ -2,8 +2,11 @@ package service.commit.step
 
 import org.junit.Test
 import service.commit.step.DirectoriesParser.getAllDirectories
-import service.commit.step.DirectoriesParser.getChildrenDirectories
+import service.commit.step.DirectoriesParser.getDirectChildrenDirectories
+import service.commit.step.DirectoriesParser.isChildrenDirectory
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class DirectoriesParserTest {
 
@@ -23,7 +26,7 @@ internal class DirectoriesParserTest {
             "/dir1/dir4"
         )
 
-        val result = getChildrenDirectories(directory, allDirectories)
+        val result = getDirectChildrenDirectories(directory, allDirectories)
 
         assertEquals(expectedResult, result)
     }
@@ -48,5 +51,25 @@ internal class DirectoriesParserTest {
         val result = getAllDirectories(directoriesWithContent)
 
         assertEquals(expectedResult.toSet(), result.toSet())
+    }
+
+    @Test
+    fun `isChildrenDirectory - should return true when is a children directory`() {
+        val directory = "some/directory/path"
+        val other = "$directory/dir/file.kt"
+
+        val result = isChildrenDirectory(directory, other)
+
+        assertTrue(result)
+    }
+
+    @Test
+    fun `isChildrenDirectory - should return true when is not a directory`() {
+        val directory = "some/directory/path"
+        val other = "$directory/file.kt"
+
+        val result = isChildrenDirectory(directory, other)
+
+        assertFalse(result)
     }
 }

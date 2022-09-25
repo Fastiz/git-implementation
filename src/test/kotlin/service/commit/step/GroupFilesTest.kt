@@ -1,5 +1,6 @@
 package service.commit.step
 
+import directory.DataProvider.buildRoot
 import io.mockk.every
 import io.mockk.mockk
 import model.FileBlob
@@ -36,14 +37,29 @@ internal class GroupFilesTest {
 
         assertEquals(expectedResult, result)
     }
+    @Test
+    fun `groupFilesByFolder - groups correctly when there are no directories`() {
+        val fileBlob1 = FileBlob("file1.jpg", FileBlobId.from("id-1"))
+
+        val fileBlobs = listOf(fileBlob1)
+
+        val expectedResult = mapOf(
+            "" to listOf(fileBlob1)
+        )
+
+        val result = groupFilesByFolder(fileBlobs)
+
+        assertEquals(expectedResult, result)
+    }
 
     @Test
     fun `groupFilesByFolderFromTree - groups them correctly`() {
-        val fileBlob1 = FileBlob("./dir2/file1.jpg", FileBlobId.from("id-1"))
-        val fileBlob2 = FileBlob("./file2.pdf", FileBlobId.from("id-2"))
-        val fileBlob3 = FileBlob("./file3.doc", FileBlobId.from("id-3"))
-        val fileBlob4 = FileBlob("./dir3/file4.png", FileBlobId.from("id-3"))
-        val fileBlob5 = FileBlob("./dir4/dir5/file5.png", FileBlobId.from("id-4"))
+        val root = buildRoot()
+        val fileBlob1 = FileBlob("dir2/file1.jpg", FileBlobId.from("id-1"))
+        val fileBlob2 = FileBlob("file2.pdf", FileBlobId.from("id-2"))
+        val fileBlob3 = FileBlob("file3.doc", FileBlobId.from("id-3"))
+        val fileBlob4 = FileBlob("dir3/file4.png", FileBlobId.from("id-3"))
+        val fileBlob5 = FileBlob("dir4/dir5/file5.png", FileBlobId.from("id-4"))
 
         val tree2 = buildTree(
             id = TreeId.from("tree-2"),
@@ -66,7 +82,7 @@ internal class GroupFilesTest {
         val tree4 = buildTree(
             id = TreeId.from("tree-4"),
             entries = listOf(
-                SubtreeTreeEntry(path = "./dir4/dir5", subtreeId = tree5.id),
+                SubtreeTreeEntry(path = "dir4/dir5", subtreeId = tree5.id),
             )
         )
         val tree1 = buildTree(
@@ -74,18 +90,18 @@ internal class GroupFilesTest {
             entries = listOf(
                 FileTreeEntry(path = fileBlob2.path, fileBlobId = fileBlob2.id),
                 FileTreeEntry(path = fileBlob3.path, fileBlobId = fileBlob3.id),
-                SubtreeTreeEntry(path = "./dir2", subtreeId = tree2.id),
-                SubtreeTreeEntry(path = "./dir3", subtreeId = tree3.id),
-                SubtreeTreeEntry(path = "./dir4", subtreeId = tree4.id),
+                SubtreeTreeEntry(path = "dir2", subtreeId = tree2.id),
+                SubtreeTreeEntry(path = "dir3", subtreeId = tree3.id),
+                SubtreeTreeEntry(path = "dir4", subtreeId = tree4.id),
             )
         )
 
         val expectedResult = mapOf(
-            "." to listOf(fileBlob2, fileBlob3),
-            "./dir2" to listOf(fileBlob1),
-            "./dir3" to listOf(fileBlob4),
-            "./dir4" to emptyList(),
-            "./dir4/dir5" to listOf(fileBlob5),
+            "" to listOf(fileBlob2, fileBlob3),
+            "dir2" to listOf(fileBlob1),
+            "dir3" to listOf(fileBlob4),
+            "dir4" to emptyList(),
+            "dir4/dir5" to listOf(fileBlob5),
         )
 
         val treeProvider = mockk<(treeId: TreeId) -> Tree>()
@@ -96,7 +112,11 @@ internal class GroupFilesTest {
         every { treeProvider(tree4.id) } returns tree4
         every { treeProvider(tree5.id) } returns tree5
 
-        val result = groupFilesByFolderFromTree(tree1, treeProvider)
+        val result = groupFilesByFolderFromTree(
+            root = root,
+            tree = tree1,
+            treeProvider = treeProvider
+        )
 
         assertEquals(expectedResult, result)
     }

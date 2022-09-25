@@ -1,15 +1,19 @@
 package service.init
 
 import dao.files.FileDao
-import model.Directory
-import model.File
+import directory.Head
+import directory.Index
+import directory.Objects
 
 class InitServiceImpl(
+    private val objects: Objects,
+    private val head: Head,
+    private val index: Index,
     private val fileDao: FileDao,
 ) : InitService {
     override fun run() {
-        fileDao.createDirectory(Directory.OBJECTS.path)
-        fileDao.createFile(File.HEAD.path)
-        fileDao.createFile(File.INDEX.path)
+        fileDao.createDirectory(objects.path)
+        fileDao.createFile(head.path)
+        fileDao.createFile(index.path)
     }
 }

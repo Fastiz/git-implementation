@@ -1,6 +1,9 @@
 package service.init
 
 import dao.files.FileDao
+import directory.DataProvider.buildHead
+import directory.DataProvider.buildIndex
+import directory.DataProvider.buildObjects
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -10,13 +13,21 @@ import org.junit.Before
 import org.junit.Test
 
 class InitServiceImplTest {
+    private val objects = buildObjects()
+    private val head = buildHead()
+    private val index = buildIndex()
     private lateinit var fileDao: FileDao
     private lateinit var initServiceImpl: InitServiceImpl
 
     @Before
     fun before() {
         fileDao = mockk()
-        initServiceImpl = InitServiceImpl(fileDao = fileDao)
+        initServiceImpl = InitServiceImpl(
+            objects = objects,
+            head = head,
+            index = index,
+            fileDao = fileDao
+        )
     }
 
     @Test
@@ -26,6 +37,6 @@ class InitServiceImplTest {
 
         initServiceImpl.run()
 
-        verify { fileDao.createDirectory("./.fastiz-git/objects") }
+        verify { fileDao.createDirectory(objects.path) }
     }
 }

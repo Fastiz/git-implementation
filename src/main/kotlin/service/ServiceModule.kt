@@ -29,6 +29,7 @@ object ServiceModule {
             CreateNewTree(
                 treeRepository = get(),
                 logger = get(),
+                root = get(),
             )
         }
         single {
@@ -66,6 +67,9 @@ object ServiceModule {
 
         single<InitService> {
             InitServiceImpl(
+                objects = get(),
+                head = get(),
+                index = get(),
                 fileDao = get()
             )
         }

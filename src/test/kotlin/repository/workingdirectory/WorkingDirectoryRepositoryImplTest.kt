@@ -1,6 +1,12 @@
 package repository.workingdirectory
 
 import dao.files.FileDao
+import directory.DataProvider.buildGit
+import directory.DataProvider.buildObjects
+import directory.DataProvider.buildRoot
+import directory.Git
+import directory.Objects
+import directory.Root
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -12,13 +18,21 @@ import org.junit.Before
 import org.junit.Test
 
 class WorkingDirectoryRepositoryImplTest {
+    private val root = buildRoot()
+    private val git = buildGit()
+    private val objects = buildObjects()
     private lateinit var fileDao: FileDao
     private lateinit var workingDirectoryRepositoryImpl: WorkingDirectoryRepositoryImpl
 
     @Before
     fun before() {
         fileDao = mockk()
-        workingDirectoryRepositoryImpl = WorkingDirectoryRepositoryImpl(fileDao)
+        workingDirectoryRepositoryImpl = WorkingDirectoryRepositoryImpl(
+            root = root,
+            git = git,
+            objects = objects,
+            fileDao = fileDao,
+        )
     }
 
     @Test
@@ -29,8 +43,8 @@ class WorkingDirectoryRepositoryImplTest {
 
         verify {
             fileDao.removeAllExcluding(
-                directory = ".",
-                excluding = listOf("./.fastiz-git")
+                directory = root.path,
+                excluding = listOf(git.path)
             )
         }
     }
@@ -42,6 +56,6 @@ class WorkingDirectoryRepositoryImplTest {
         val fileBlob = buildFileBlob(id = FileBlobId.from("id"), path = "path")
         workingDirectoryRepositoryImpl.bringBlob(fileBlob)
 
-        verify { fileDao.copyFile(origin = "./.fastiz-git/objects/id", target = "./path") }
+        verify { fileDao.copyFile(origin = objects.extend(fileBlob.id.value), target = root.extend(fileBlob.path)) }
     }
 }

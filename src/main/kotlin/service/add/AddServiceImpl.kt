@@ -9,10 +9,11 @@ class AddServiceImpl(
     private val indexRepository: IndexRepository
 ) : AddService {
     override fun run(stagedFiles: List<String>) {
-        val blobList = stagedFiles.map {
-            val fileBlobId = fileBlobRepository.createIfNotExists(it)
-            FileBlob(path = it, id = fileBlobId)
-        }
+        val blobList = stagedFiles
+            .map {
+                val fileBlobId = fileBlobRepository.createIfNotExists(it)
+                FileBlob(path = it, id = fileBlobId)
+            }
 
         indexRepository.add(blobList)
     }

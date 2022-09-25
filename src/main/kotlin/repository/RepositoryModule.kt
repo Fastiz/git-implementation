@@ -28,7 +28,8 @@ object RepositoryModule {
         }
         single<HeadRepository> {
             HeadRepositoryImpl(
-                fileDao = get()
+                fileDao = get(),
+                head = get(),
             )
         }
         single<TreeRepository> {
@@ -38,13 +39,17 @@ object RepositoryModule {
         }
         single<WorkingDirectoryRepository> {
             WorkingDirectoryRepositoryImpl(
-                fileDao = get()
+                fileDao = get(),
+                root = get(),
+                git = get(),
+                objects = get(),
             )
         }
         single<IndexRepository> {
             IndexRepositoryImpl(
                 fileDao = get(),
                 logger = get(),
+                index = get(),
             )
         }
     }

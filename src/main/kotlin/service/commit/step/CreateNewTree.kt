@@ -1,8 +1,8 @@
 package service.commit.step
 
+import directory.Root
 import logger.Logger
 import logger.util.FileBlob.debugFileBlobs
-import model.Directory
 import model.FileBlob
 import model.FileTreeEntry
 import model.Step
@@ -11,7 +11,7 @@ import model.TreeId
 import model.TreeInput
 import repository.tree.TreeRepository
 import service.commit.step.DirectoriesParser.getAllDirectories
-import service.commit.step.DirectoriesParser.getChildrenDirectories
+import service.commit.step.DirectoriesParser.getDirectChildrenDirectories
 import service.commit.step.GroupFiles.groupFilesByFolder
 
 data class OutputCreateNewTree(
@@ -19,6 +19,7 @@ data class OutputCreateNewTree(
 )
 
 class CreateNewTree(
+    private val root: Root,
     private val treeRepository: TreeRepository,
     private val logger: Logger,
 ) : Step<Iterable<FileBlob>, OutputCreateNewTree> {
@@ -45,7 +46,7 @@ class CreateNewTree(
         val createdTrees = mutableMapOf<String, TreeId>()
 
         return createTreesFromGroupedFilesRec(
-            currentDirectory = Directory.ROOT.path,
+            currentDirectory = root.path,
             allDirectories = allDirectories,
             groupedFiles = groupedFiles,
             createdTrees = createdTrees
@@ -58,7 +59,7 @@ class CreateNewTree(
         groupedFiles: Map<String, List<FileBlob>>,
         createdTrees: MutableMap<String, TreeId>,
     ): TreeId {
-        val children = getChildrenDirectories(currentDirectory, allDirectories)
+        val children = getDirectChildrenDirectories(currentDirectory, allDirectories)
 
         val subtreeEntries = children.map { child ->
             val subtreeId = createdTrees[child]
@@ -79,7 +80,7 @@ class CreateNewTree(
 
         val treeInput = TreeInput(entries = entries)
 
-        logger.printDebug("CreateNewTree - creating tree with the following input: $treeInput")
+        logger.printDebug("Creating tree with the following input: $treeInput")
 
         val treeId = treeRepository.create(treeInput)
 
