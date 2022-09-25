@@ -47,7 +47,11 @@ class IndexRepositoryImpl(
     }
 
     override fun set(stagedBlobs: Iterable<FileBlob>) {
-        TODO("Not yet implemented")
+        fileDao.writeFile(File.INDEX.path) {
+            stagedBlobs
+                .map(::fileBlobToLine)
+                .forEach(::writeLine)
+        }
     }
 
     private fun Logger.debugFileBlobs(fileBlobs: Iterable<FileBlob>) {
