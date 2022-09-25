@@ -41,13 +41,11 @@ class CommandRunnerImplTest {
 
     @Test
     fun `calls commit service`() {
-        val args = listOf("commit", "a", "b")
+        every { commitService.run() } just runs
 
-        every { commitService.run(any()) } just runs
+        commandRunnerImpl.commit()
 
-        commandRunnerImpl.commit(args)
-
-        verify { commitService.run(listOf("a", "b")) }
+        verify { commitService.run() }
     }
 
     @Test

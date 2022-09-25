@@ -42,7 +42,6 @@ class CommitServiceImplTest {
 
     @Test
     fun `calls all the steps`() {
-        val stagedFiles = listOf("sample-file.kt")
         val input = CreateFileBlobsIfNotExistInput(
             stagedFiles = listOf("./sample-file.kt")
         )
@@ -61,7 +60,7 @@ class CommitServiceImplTest {
         every { createCommit.execute(any()) } returns createCommitOutput
         every { moveHead.execute(any()) } returns CommitId.from("commit-id")
 
-        commitServiceImpl.run(stagedFiles)
+        commitServiceImpl.run()
 
         verify { createFileBlobsIfNotExist.execute(input) }
         verify { createNewTree.execute(createFileBlobsIfNotExistOutput) }
