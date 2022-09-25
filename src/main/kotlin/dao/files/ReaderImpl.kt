@@ -12,4 +12,8 @@ class ReaderImpl(lines: Stream<String>) : Reader {
 
         return null
     }
+
+    override fun readAllLines(): Sequence<String> {
+        return iterator.asSequence()
+    }
 }
