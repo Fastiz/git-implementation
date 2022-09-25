@@ -43,7 +43,8 @@ object RepositoryModule {
         }
         single<IndexRepository> {
             IndexRepositoryImpl(
-                fileDao = get()
+                fileDao = get(),
+                logger = get(),
             )
         }
     }
