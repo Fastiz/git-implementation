@@ -4,9 +4,6 @@ import dao.files.FileDao
 import directory.DataProvider.buildGit
 import directory.DataProvider.buildObjects
 import directory.DataProvider.buildRoot
-import directory.Git
-import directory.Objects
-import directory.Root
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk

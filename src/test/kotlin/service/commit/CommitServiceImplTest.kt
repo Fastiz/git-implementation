@@ -5,7 +5,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import logger.TestLogger
 import model.CommitId
-import model.FileBlob
 import model.TreeId
 import org.junit.Before
 import org.junit.Test
