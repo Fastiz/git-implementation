@@ -7,8 +7,8 @@ import io.mockk.runs
 import io.mockk.verify
 import model.FileBlob
 import model.FileBlobId
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
 import repository.blob.FileBlobRepository
 import repository.index.IndexRepository
 
@@ -17,8 +17,9 @@ internal class AddServiceImplTest {
     private lateinit var indexRepository: IndexRepository
     private lateinit var addService: AddService
 
-    @BeforeEach
+    @Before
     fun beforeEach() {
+        fileBlobRepository = mockk()
         indexRepository = mockk()
         addService = AddServiceImpl(
             fileBlobRepository = fileBlobRepository,

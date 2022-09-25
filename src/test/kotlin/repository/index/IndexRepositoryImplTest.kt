@@ -10,14 +10,14 @@ import io.mockk.verify
 import model.File
 import model.FileBlob
 import model.FileBlobId
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
 
 internal class IndexRepositoryImplTest {
     private lateinit var fileDao: FileDao
     private lateinit var indexRepository: IndexRepository
 
-    @BeforeEach
+    @Before
     fun beforeEach() {
         fileDao = mockk()
         indexRepository = IndexRepositoryImpl(

@@ -14,7 +14,7 @@ class CommandRunnerImpl(
     private val addService: AddService,
 ) : CommandRunner {
     override fun commit(args: List<String>) {
-        val parameters = args.toList().drop(1)
+        val parameters = args.drop(1)
 
         commitService.run(parameters)
     }
@@ -34,7 +34,7 @@ class CommandRunnerImpl(
     }
 
     override fun add(args: List<String>) {
-        val parameters = args.toList().drop(1)
+        val parameters = args.drop(1)
 
         addService.run(parameters)
     }

@@ -79,7 +79,7 @@ class CommandRunnerImplTest {
 
     @Test
     fun `calls add service`() {
-        val arguments = listOf("add file.kt")
+        val arguments = listOf("add", "file.kt")
 
         every { addService.run(any()) } just runs
 
