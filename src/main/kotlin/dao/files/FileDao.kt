@@ -2,10 +2,16 @@ package dao.files
 
 interface Writer {
     fun write(content: String)
+
+    fun writeLine(line: String)
+
+    fun getFullContent(): String
 }
 
 interface Reader {
     fun readLine(): String?
+
+    fun readAllLines(): Sequence<String>
 }
 
 interface FileDao {

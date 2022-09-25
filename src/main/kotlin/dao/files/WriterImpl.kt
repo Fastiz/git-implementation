@@ -7,7 +7,11 @@ class WriterImpl() : Writer {
         fullContent.append(content)
     }
 
-    fun getFullContent(): String {
+    override fun writeLine(line: String) {
+        fullContent.appendLine(line)
+    }
+
+    override fun getFullContent(): String {
         return fullContent.toString()
     }
 }

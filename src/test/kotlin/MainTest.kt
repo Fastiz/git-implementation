@@ -70,4 +70,15 @@ class MainTest {
 
         verify { commandRunner.log() }
     }
+
+    @Test
+    fun `call run add`() {
+        val args = listOf("add", "file1.kt", "file2.kt")
+
+        every { commandRunner.add(any()) } just runs
+
+        main.run(args)
+
+        verify { commandRunner.add(args) }
+    }
 }

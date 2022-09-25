@@ -59,3 +59,7 @@ tasks {
         dependsOn(fatJar) // Trigger fat jar creation during build
     }
 }
+
+ktlint {
+    version.set("0.41.0")
+}

@@ -1,5 +1,6 @@
 package controller.commandRunner
 
+import service.add.AddService
 import service.checkout.CheckoutService
 import service.commit.CommitService
 import service.init.InitService
@@ -10,9 +11,10 @@ class CommandRunnerImpl(
     private val initService: InitService,
     private val checkoutService: CheckoutService,
     private val logService: LogService,
+    private val addService: AddService,
 ) : CommandRunner {
     override fun commit(args: List<String>) {
-        val parameters = args.toList().drop(1)
+        val parameters = args.drop(1)
 
         commitService.run(parameters)
     }
@@ -29,5 +31,11 @@ class CommandRunnerImpl(
 
     override fun log() {
         logService.run()
+    }
+
+    override fun add(args: List<String>) {
+        val parameters = args.drop(1)
+
+        addService.run(parameters)
     }
 }
