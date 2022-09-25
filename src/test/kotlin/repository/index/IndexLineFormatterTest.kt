@@ -2,9 +2,8 @@ package repository.index
 
 import model.FileBlob
 import model.FileBlobId
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 internal class IndexLineFormatterTest {
 
