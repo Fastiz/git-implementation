@@ -55,7 +55,10 @@ object RepositoryModule {
             )
         }
         single<RefRepository> {
-            RefRepositoryImpl()
+            RefRepositoryImpl(
+                refsHeads = get(),
+                fileDao = get(),
+            )
         }
     }
 }

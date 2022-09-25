@@ -7,5 +7,7 @@ object DirectoryModule {
         single { Objects(git = get()) }
         single { Index(git = get()) }
         single { Head(git = get()) }
+        single { Refs(git = get()) }
+        single { RefsHeads(refs = get()) }
     }
 }

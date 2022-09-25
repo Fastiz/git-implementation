@@ -1,9 +1,17 @@
 package repository.ref
 
+import dao.files.FileDao
+import directory.RefsHeads
 import model.CommitId
 
-class RefRepositoryImpl : RefRepository {
+class RefRepositoryImpl(
+    private val refsHeads: RefsHeads,
+    private val fileDao: FileDao
+) : RefRepository {
     override fun create(refName: String, commitId: CommitId) {
-        TODO("Not yet implemented")
+        val fullPath = refsHeads.extend(refName)
+        fileDao.writeFile(fullPath) {
+            writeLine(commitId.value)
+        }
     }
 }

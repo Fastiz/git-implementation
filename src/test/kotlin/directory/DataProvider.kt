@@ -10,4 +10,8 @@ object DataProvider {
     fun buildHead(): Head = Head(buildGit())
 
     fun buildIndex(): Index = Index(buildGit())
+
+    fun buildRefs(): Refs = Refs(buildGit())
+
+    fun buildRefsHeads(): RefsHeads = RefsHeads(buildRefs())
 }
