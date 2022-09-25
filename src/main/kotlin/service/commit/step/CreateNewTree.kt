@@ -46,7 +46,7 @@ class CreateNewTree(
         val createdTrees = mutableMapOf<String, TreeId>()
 
         return createTreesFromGroupedFilesRec(
-            currentDirectory = root.path,
+            currentDirectory = "",
             allDirectories = allDirectories,
             groupedFiles = groupedFiles,
             createdTrees = createdTrees

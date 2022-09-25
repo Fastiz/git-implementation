@@ -1,10 +1,9 @@
 package service.add
 
 import directory.DataProvider.buildRoot
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.Test
 import service.add.RelativePaths.makePathRelativeToRoot
+import kotlin.test.assertEquals
 
 internal class RelativePathsTest {
 

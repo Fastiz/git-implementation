@@ -6,7 +6,12 @@ object DirectoriesParser {
     }
 
     fun isChildrenDirectory(directory: String, other: String): Boolean {
-        val regex = "^$directory/[^/]+/[^/]+".toRegex()
+        val regex = if (directory.isEmpty()) {
+            "^[^/]+$".toRegex()
+        } else {
+            "^$directory/[^/]+$".toRegex()
+        }
+
         return other.matches(regex)
     }
 
