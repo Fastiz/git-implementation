@@ -2,18 +2,15 @@ package service.commit
 
 import logger.Logger
 import model.CommitId
-import model.Directory
 import model.LambdaStep
 import model.StepExecutorBuilder
-import model.extendPath
+import repository.index.IndexRepository
 import service.commit.step.CreateCommit
-import service.commit.step.CreateFileBlobsIfNotExist
-import service.commit.step.CreateFileBlobsIfNotExistInput
 import service.commit.step.CreateNewTree
 import service.commit.step.MoveHead
 
 class CommitServiceImpl(
-    private val createFileBlobsIfNotExist: CreateFileBlobsIfNotExist,
+    private val indexRepository: IndexRepository,
     private val createNewTree: CreateNewTree,
     private val createCommit: CreateCommit,
     private val moveHead: MoveHead,
@@ -23,17 +20,14 @@ class CommitServiceImpl(
         logger.print("Commit created with hash: ${it.value}")
     }
 
-    override fun run(stagedFiles: List<String>) {
+    override fun run() {
         val executor = StepExecutorBuilder()
-            .addStep(createFileBlobsIfNotExist)
             .addStep(createNewTree)
             .addStep(createCommit)
             .addStep(moveHead)
             .addStep(logCommitStep)
 
-        // FIXME should canonize file paths
-        val stagesFilesRelativeToRoot = stagedFiles.map { Directory.ROOT.extendPath(it) }
-        val input = CreateFileBlobsIfNotExistInput(stagesFilesRelativeToRoot)
-        executor.execute(input)
+        val fileBlobsInIndex = indexRepository.get()
+        executor.execute(fileBlobsInIndex.asIterable())
     }
 }

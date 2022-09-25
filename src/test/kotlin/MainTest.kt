@@ -29,13 +29,13 @@ class MainTest {
 
     @Test
     fun `call run commit`() {
-        val args = listOf("commit", "a", "b")
+        val args = listOf("commit")
 
-        every { commandRunner.commit(any()) } just runs
+        every { commandRunner.commit() } just runs
 
         main.run(args)
 
-        verify { commandRunner.commit(args) }
+        verify { commandRunner.commit() }
     }
 
     @Test

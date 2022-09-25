@@ -1,12 +1,15 @@
 package repository.head
 
 import dao.files.FileDao
+import directory.Head
 import model.CommitId
-import model.File
 
-class HeadRepositoryImpl(private val fileDao: FileDao) : HeadRepository {
+class HeadRepositoryImpl(
+    private val head: Head,
+    private val fileDao: FileDao
+) : HeadRepository {
     override fun getHead(): CommitId? {
-        val content = fileDao.readFile(File.HEAD.path) {
+        val content = fileDao.readFile(head.path) {
             readLine()
         }
 
@@ -16,7 +19,7 @@ class HeadRepositoryImpl(private val fileDao: FileDao) : HeadRepository {
     }
 
     override fun setHead(commitId: CommitId) {
-        fileDao.writeFile(File.HEAD.path) {
+        fileDao.writeFile(head.path) {
             write(commitId.value)
         }
     }

@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 object DaoModule {
     val module = module {
-        single<FileDao> { FileDaoImpl() }
-        single<ObjectsDao> { ObjectsDaoImpl() }
+        single<FileDao> { FileDaoImpl(root = get()) }
+        single<ObjectsDao> { ObjectsDaoImpl(objects = get(), fileDao = get()) }
     }
 }

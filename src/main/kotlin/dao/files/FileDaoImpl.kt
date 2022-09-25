@@ -1,9 +1,12 @@
 package dao.files
 
+import directory.Root
 import java.nio.file.Files
 import java.nio.file.Path
 
-class FileDaoImpl : FileDao {
+class FileDaoImpl(
+    private val root: Root
+) : FileDao {
     override fun createDirectory(path: String) {
         Files.createDirectories(Path.of(path))
     }
@@ -40,7 +43,7 @@ class FileDaoImpl : FileDao {
         val excludingPaths = excluding.map(Path::of)
         val startDirectoryPath = Path.of(directory)
 
-        Files.walkFileTree(startDirectoryPath, DeleteFilesExcludingVisitor(excludingPaths))
+        Files.walkFileTree(startDirectoryPath, DeleteFilesExcludingVisitor(root, excludingPaths))
     }
 
     override fun doesFileExist(path: String): Boolean {

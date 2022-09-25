@@ -1,23 +1,27 @@
 package repository.workingdirectory
 
 import dao.files.FileDao
-import model.Directory
+import directory.Git
+import directory.Objects
+import directory.Root
 import model.FileBlob
-import model.extendPath
 
 class WorkingDirectoryRepositoryImpl(
+    private val root: Root,
+    private val git: Git,
+    private val objects: Objects,
     private val fileDao: FileDao
 ) : WorkingDirectoryRepository {
     override fun clear() {
         fileDao.removeAllExcluding(
-            directory = Directory.ROOT.path,
-            excluding = listOf(Directory.GIT.path)
+            directory = root.path,
+            excluding = listOf(git.path)
         )
     }
 
     override fun bringBlob(fileBlob: FileBlob) {
-        val originPath = Directory.OBJECTS.extendPath(fileBlob.id.value)
-        val targetPath = Directory.ROOT.extendPath(fileBlob.path)
+        val originPath = objects.extend(fileBlob.id.value)
+        val targetPath = root.extend(fileBlob.path)
 
         fileDao.copyFile(
             origin = originPath,

@@ -1,5 +1,6 @@
 package service.commit.step
 
+import directory.DataProvider.buildRoot
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -20,6 +21,7 @@ import repository.tree.TreeRepository
 import kotlin.test.assertEquals
 
 class CreateNewTreeTest {
+    private val root = buildRoot()
     private lateinit var treeRepository: TreeRepository
     private lateinit var commitRepository: CommitRepository
     private lateinit var headRepository: HeadRepository
@@ -33,8 +35,7 @@ class CreateNewTreeTest {
         commitRepository = mockk()
         headRepository = mockk()
         createNewTree = CreateNewTree(
-            commitRepository = commitRepository,
-            headRepository = headRepository,
+            root = root,
             treeRepository = treeRepository,
             logger = logger,
         )
@@ -43,16 +44,14 @@ class CreateNewTreeTest {
     @Test
     fun `calls tree repository with the correct input`() {
         val fileBlobList = listOf(
-            FileBlob(id = FileBlobId.from("id-1"), path = "./file1"),
-            FileBlob(id = FileBlobId.from("id-2"), path = "./file2"),
+            FileBlob(id = FileBlobId.from("id-1"), path = "file1"),
+            FileBlob(id = FileBlobId.from("id-2"), path = "file2"),
         )
         val currentCommitId = CommitId.from("commit-id")
         val currentCommitTreeId = TreeId.from("current-tree-id")
         val currentCommit = buildCommit(id = currentCommitId, treeId = currentCommitTreeId)
         val currentTree = buildTree(entries = emptyList())
         val resultTreeId = TreeId.from("result-tree-id")
-
-        val input = CreateFileBlobsIfNotExistOutput(fileBlobList = fileBlobList)
 
         every { headRepository.getHead() } returns currentCommitId
         every { commitRepository.get(currentCommitId) } returns currentCommit
@@ -61,12 +60,12 @@ class CreateNewTreeTest {
         val treeInputSlot = slot<TreeInput>()
         every { treeRepository.create(capture(treeInputSlot)) } returns resultTreeId
 
-        val result = createNewTree.execute(input)
+        val result = createNewTree.execute(fileBlobList)
 
         val expectedTreeInput = TreeInput(
             entries = listOf(
-                FileTreeEntry(fileBlobId = FileBlobId.from("id-1"), path = "./file1"),
-                FileTreeEntry(fileBlobId = FileBlobId.from("id-2"), path = "./file2"),
+                FileTreeEntry(fileBlobId = FileBlobId.from("id-1"), path = "file1"),
+                FileTreeEntry(fileBlobId = FileBlobId.from("id-2"), path = "file2"),
             )
         )
 

@@ -2,6 +2,7 @@ package repository.index
 
 import dao.files.FileDao
 import dao.files.Reader
+import directory.DataProvider.buildIndex
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -9,13 +10,13 @@ import io.mockk.runs
 import io.mockk.verify
 import logger.Logger
 import logger.TestLogger
-import model.File
 import model.FileBlob
 import model.FileBlobId
 import org.junit.Before
 import org.junit.Test
 
 internal class IndexRepositoryImplTest {
+    private val index = buildIndex()
     private lateinit var fileDao: FileDao
     private lateinit var logger: Logger
     private lateinit var indexRepository: IndexRepository
@@ -25,6 +26,7 @@ internal class IndexRepositoryImplTest {
         fileDao = mockk()
         logger = TestLogger()
         indexRepository = IndexRepositoryImpl(
+            index = index,
             fileDao = fileDao,
             logger = logger,
         )
@@ -42,6 +44,6 @@ internal class IndexRepositoryImplTest {
         val fileBlobList = listOf(FileBlob(path = "file1-path", id = FileBlobId.from("file1-id")))
         indexRepository.add(fileBlobList)
 
-        verify { fileDao.writeFile(File.INDEX.path, any()) }
+        verify { fileDao.writeFile(index.path, any()) }
     }
 }

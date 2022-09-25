@@ -1,7 +1,7 @@
 package controller.commandRunner
 
 interface CommandRunner {
-    fun commit(args: List<String>)
+    fun commit()
 
     fun init()
 

@@ -1,21 +1,18 @@
 package service.commit.step
 
 object DirectoriesParser {
-    fun getChildrenDirectories(directory: String, allDirectories: Collection<String>): List<String> {
-        val directorySegments = directory.split("/")
+    fun getDirectChildrenDirectories(directory: String, allDirectories: Collection<String>): List<String> {
+        return allDirectories.filter { isChildrenDirectory(directory, it) }
+    }
 
-        val result = mutableSetOf<String>()
-        val descendants = allDirectories
-            .filter { it.contains(directory) }
-            .filter { it != directory }
-
-        descendants.forEach {
-            val segments = it.split("/")
-            val childrenDirectory = segments[directorySegments.size]
-            result.add("$directory/$childrenDirectory")
+    fun isChildrenDirectory(directory: String, other: String): Boolean {
+        val regex = if (directory.isEmpty()) {
+            "^[^/]+$".toRegex()
+        } else {
+            "^$directory/[^/]+$".toRegex()
         }
 
-        return result.toList()
+        return other.matches(regex)
     }
 
     fun getAllDirectories(directoriesWithContent: List<String>): Set<String> {

@@ -6,4 +6,6 @@ interface IndexRepository {
     fun add(stagedBlobs: Iterable<FileBlob>)
 
     fun set(stagedBlobs: Iterable<FileBlob>)
+
+    fun get(): Sequence<FileBlob>
 }

@@ -1,6 +1,6 @@
 package service.commit.step
 
-import model.Directory
+import directory.Root
 import model.FileBlob
 import model.FileTreeEntry
 import model.SubtreeTreeEntry
@@ -8,11 +8,15 @@ import model.Tree
 import model.TreeId
 
 object GroupFiles {
-    fun groupFilesByFolder(fileBlobList: List<FileBlob>): Map<String, List<FileBlob>> {
+    fun groupFilesByFolder(fileBlobList: Iterable<FileBlob>): Map<String, List<FileBlob>> {
         val result = mutableMapOf<String, List<FileBlob>>()
 
         fileBlobList.forEach {
-            val directoryPath = it.path.replace("/[^/]+$".toRegex(), "")
+            val directoryPath = if (it.path.contains("/")) {
+                it.path.replace("/[^/]+$".toRegex(), "")
+            } else {
+                ""
+            }
 
             val filesInTheSameDirectory = result[directoryPath] ?: emptyList()
 
@@ -23,11 +27,12 @@ object GroupFiles {
     }
 
     fun groupFilesByFolderFromTree(
+        root: Root,
         tree: Tree,
         treeProvider: (treeId: TreeId) -> Tree,
     ): Map<String, List<FileBlob>> {
         return groupFilesByFolderFromTreeRec(
-            currentPath = Directory.ROOT.path,
+            currentPath = root.path,
             currentTree = tree,
             treeProvider = treeProvider,
         )

@@ -1,5 +1,6 @@
 package service.add
 
+import directory.DataProvider.buildRoot
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -13,6 +14,7 @@ import repository.blob.FileBlobRepository
 import repository.index.IndexRepository
 
 internal class AddServiceImplTest {
+    private var root = buildRoot()
     private lateinit var fileBlobRepository: FileBlobRepository
     private lateinit var indexRepository: IndexRepository
     private lateinit var addService: AddService
@@ -22,6 +24,7 @@ internal class AddServiceImplTest {
         fileBlobRepository = mockk()
         indexRepository = mockk()
         addService = AddServiceImpl(
+            root = root,
             fileBlobRepository = fileBlobRepository,
             indexRepository = indexRepository,
         )

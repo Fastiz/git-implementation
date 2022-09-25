@@ -1,18 +1,19 @@
 package dao.objects
 
 import dao.files.FileDao
-import dao.files.FileDaoImpl
-import model.Directory
-import model.extendPath
+import directory.Objects
 import java.nio.file.Files
 import java.nio.file.Path
 import java.security.MessageDigest
 
-class ObjectsDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : ObjectsDao {
+class ObjectsDaoImpl(
+    private val objects: Objects,
+    private val fileDao: FileDao
+) : ObjectsDao {
     override fun createFromString(content: String): Hash {
         val hash = content.toByteArray().sha256()
 
-        val path = Directory.OBJECTS.extendPath(hash)
+        val path = objects.extend(hash)
 
         if (!fileDao.doesFileExist(path)) {
             fileDao.createFile(path)
@@ -29,7 +30,7 @@ class ObjectsDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : ObjectsDao 
 
         val hash = bytes.sha256()
 
-        val pathToWrite = Directory.OBJECTS.extendPath(hash)
+        val pathToWrite = objects.extend(hash)
         if (!fileDao.doesFileExist(pathToWrite)) {
             fileDao.copyFile(path, pathToWrite)
         }
@@ -38,7 +39,7 @@ class ObjectsDaoImpl(private val fileDao: FileDao = FileDaoImpl()) : ObjectsDao 
     }
 
     override fun get(id: Hash): String {
-        val lines = fileDao.readFile(Directory.OBJECTS.extendPath(id)) {
+        val lines = fileDao.readFile(objects.extend(id)) {
             generateSequence { readLine() }
         }
 
