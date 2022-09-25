@@ -9,7 +9,8 @@ object ControllerModule {
                 commitService = get(),
                 initService = get(),
                 checkoutService = get(),
-                logService = get()
+                logService = get(),
+                addService = get(),
             )
         }
     }
