@@ -3,5 +3,7 @@ package repository.index
 import model.FileBlob
 
 interface IndexRepository {
-    fun add(stagedBlobs: List<FileBlob>)
+    fun add(stagedBlobs: Iterable<FileBlob>)
+
+    fun set(stagedBlobs: Iterable<FileBlob>)
 }

@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import repository.commit.CommitRepository
 import repository.head.HeadRepository
+import repository.index.IndexRepository
 import repository.tree.TreeRepository
 import repository.workingdirectory.WorkingDirectoryRepository
 
@@ -23,6 +24,7 @@ class CheckoutServiceImplTest {
     private lateinit var headRepository: HeadRepository
     private lateinit var treeRepository: TreeRepository
     private lateinit var commitRepository: CommitRepository
+    private lateinit var indexRepository: IndexRepository
     private lateinit var checkoutServiceImpl: CheckoutServiceImpl
 
     @Before
@@ -31,12 +33,14 @@ class CheckoutServiceImplTest {
         headRepository = mockk()
         treeRepository = mockk()
         commitRepository = mockk()
+        indexRepository = mockk()
 
         checkoutServiceImpl = CheckoutServiceImpl(
             workingDirectoryRepository = workingDirectoryRepository,
             headRepository = headRepository,
             treeRepository = treeRepository,
-            commitRepository = commitRepository
+            commitRepository = commitRepository,
+            indexRepository = indexRepository
         )
     }
 
@@ -57,6 +61,7 @@ class CheckoutServiceImplTest {
         every { treeRepository.get(any()) } returns tree
         every { workingDirectoryRepository.bringBlob(any()) } just runs
         every { headRepository.setHead(any()) } just runs
+        every { indexRepository.set(any()) } just runs
 
         checkoutServiceImpl.run("commit-id")
 
@@ -64,5 +69,6 @@ class CheckoutServiceImplTest {
         verify { headRepository.setHead(commitId) }
         verify { workingDirectoryRepository.bringBlob(blob1) }
         verify { workingDirectoryRepository.bringBlob(blob2) }
+        verify { indexRepository.set(any()) }
     }
 }

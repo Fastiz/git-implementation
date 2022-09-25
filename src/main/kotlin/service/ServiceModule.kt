@@ -68,7 +68,8 @@ object ServiceModule {
                 workingDirectoryRepository = get(),
                 headRepository = get(),
                 treeRepository = get(),
-                commitRepository = get()
+                commitRepository = get(),
+                indexRepository = get(),
             )
         }
 

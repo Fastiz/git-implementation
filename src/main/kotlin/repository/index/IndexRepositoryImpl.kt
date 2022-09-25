@@ -11,7 +11,7 @@ class IndexRepositoryImpl(
     private val fileDao: FileDao,
     private val logger: Logger,
 ) : IndexRepository {
-    override fun add(stagedBlobs: List<FileBlob>) {
+    override fun add(stagedBlobs: Iterable<FileBlob>) {
         logger.printDebug("IndexRepositoryImpl")
 
         val currentIndexLines = fileDao.readFile(File.INDEX.path) {
@@ -41,6 +41,14 @@ class IndexRepositoryImpl(
 
         fileDao.writeFile(File.INDEX.path) {
             result
+                .map(::fileBlobToLine)
+                .forEach(::writeLine)
+        }
+    }
+
+    override fun set(stagedBlobs: Iterable<FileBlob>) {
+        fileDao.writeFile(File.INDEX.path) {
+            stagedBlobs
                 .map(::fileBlobToLine)
                 .forEach(::writeLine)
         }
