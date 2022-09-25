@@ -7,7 +7,6 @@ import io.mockk.runs
 import io.mockk.verify
 import model.FileBlob
 import model.FileBlobId
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import repository.blob.FileBlobRepository
