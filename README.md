@@ -7,8 +7,8 @@ It is implemented in kotlin with [koin](https://github.com/InsertKoinIO/koin) fo
 ## Supported commands
 
 - `init`
-- `commit <path>...`
-(note: because there is no add command commit includes the paths that would be in the index)
+- `commit`
+- `add <path>...`
 - `log`
 - `checkout <commit-id>` 
 (note: everything that is not in the tree is discarded)
@@ -35,32 +35,41 @@ alias <name>="java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar>
 
 ### Example
 ```
+// sets fgit as an alias
+alias fgit="java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar>"
+
 // initializes git in the directory
-java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar> init
+fgit init
 
 // create a directory and some files
 mkdir dir1
 touch file1 dir1/file2
 
-// creates a commit including the created files and it will output a commit hash
-java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar> commit file1 dir1/file2
+// adds the files to the index
+fgit add file1 dir1/file2
+
+// creates a commit and it will output a commit hash
+fgit commit
 
 // create some other directories and another file
 mkdir dir2
 mkdir dir2/dir3
 touch dir2/dir3/file3
 
-// creates another commit including the new file and will output a different commit hash
-java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar> commit dir2/dir3/file3
+// adds the new file to the index
+fgit dir2/dir3/file3
+
+// creates another commit and will output a different commit hash
+fgit commit
 
 // list the content of the directory to see all the files created so far
 ls
 
 // show the hashes of the two commits created
-java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar> log
+fgit log
 
 // checkout to the previous commit by using the hash of the output of the first commit
-java -jar <path to git-implementation-X.X-SNAPSHOT-standalone.jar> checkout <first-commit-hash>
+fgit checkout <first-commit-hash>
 
 // list the content of the directory to see only the files that were in the first commit
 ls
