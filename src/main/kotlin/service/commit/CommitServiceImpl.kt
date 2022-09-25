@@ -23,7 +23,7 @@ class CommitServiceImpl(
         logger.print("Commit created with hash: ${it.value}")
     }
 
-    override fun run(stagedFiles: List<String>) {
+    override fun run() {
         val executor = StepExecutorBuilder()
             .addStep(createFileBlobsIfNotExist)
             .addStep(createNewTree)
@@ -31,9 +31,7 @@ class CommitServiceImpl(
             .addStep(moveHead)
             .addStep(logCommitStep)
 
-        // FIXME should canonize file paths
-        val stagesFilesRelativeToRoot = stagedFiles.map { Directory.ROOT.extendPath(it) }
-        val input = CreateFileBlobsIfNotExistInput(stagesFilesRelativeToRoot)
+        val input = CreateFileBlobsIfNotExistInput(emptyList())
         executor.execute(input)
     }
 }

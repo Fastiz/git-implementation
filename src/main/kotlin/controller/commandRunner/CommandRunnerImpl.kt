@@ -13,10 +13,8 @@ class CommandRunnerImpl(
     private val logService: LogService,
     private val addService: AddService,
 ) : CommandRunner {
-    override fun commit(args: List<String>) {
-        val parameters = args.drop(1)
-
-        commitService.run(parameters)
+    override fun commit() {
+        commitService.run()
     }
 
     override fun init() {

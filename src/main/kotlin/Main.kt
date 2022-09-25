@@ -55,7 +55,7 @@ class Main(private val commandRunner: CommandRunner) {
         }
 
         when (val commandName = args[0]) {
-            "commit" -> commandRunner.commit(args)
+            "commit" -> commandRunner.commit()
             "init" -> commandRunner.init()
             "checkout" -> commandRunner.checkout(args)
             "log" -> commandRunner.log()
