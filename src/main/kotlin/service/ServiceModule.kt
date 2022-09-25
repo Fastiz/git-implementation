@@ -8,7 +8,6 @@ import service.checkout.CheckoutServiceImpl
 import service.commit.CommitService
 import service.commit.CommitServiceImpl
 import service.commit.step.CreateCommit
-import service.commit.step.CreateFileBlobsIfNotExist
 import service.commit.step.CreateNewTree
 import service.commit.step.MoveHead
 import service.init.InitService
@@ -27,15 +26,7 @@ object ServiceModule {
         }
 
         single {
-            CreateFileBlobsIfNotExist(
-                fileBlobRepository = get(),
-                logger = get(),
-            )
-        }
-        single {
             CreateNewTree(
-                commitRepository = get(),
-                headRepository = get(),
                 treeRepository = get(),
                 logger = get(),
             )
@@ -55,7 +46,7 @@ object ServiceModule {
         }
         single<CommitService> {
             CommitServiceImpl(
-                createFileBlobsIfNotExist = get(),
+                indexRepository = get(),
                 createNewTree = get(),
                 createCommit = get(),
                 moveHead = get(),

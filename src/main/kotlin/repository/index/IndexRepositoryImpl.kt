@@ -2,6 +2,7 @@ package repository.index
 
 import dao.files.FileDao
 import logger.Logger
+import logger.util.FileBlob.debugFileBlobs
 import model.File
 import model.FileBlob
 import repository.index.IndexLineFormatter.fileBlobToLine
@@ -54,9 +55,12 @@ class IndexRepositoryImpl(
         }
     }
 
-    private fun Logger.debugFileBlobs(fileBlobs: Iterable<FileBlob>) {
-        fileBlobs.forEach { fileBlob ->
-            printDebug("\t${fileBlob.id.value} ${fileBlob.path}")
+    override fun get(): Sequence<FileBlob> {
+        val currentIndexLines = fileDao.readFile(File.INDEX.path) {
+            readAllLines()
         }
+
+        return currentIndexLines
+            .map { parseLineToBlob(it) }
     }
 }

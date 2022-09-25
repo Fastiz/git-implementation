@@ -8,7 +8,7 @@ import model.Tree
 import model.TreeId
 
 object GroupFiles {
-    fun groupFilesByFolder(fileBlobList: List<FileBlob>): Map<String, List<FileBlob>> {
+    fun groupFilesByFolder(fileBlobList: Iterable<FileBlob>): Map<String, List<FileBlob>> {
         val result = mutableMapOf<String, List<FileBlob>>()
 
         fileBlobList.forEach {

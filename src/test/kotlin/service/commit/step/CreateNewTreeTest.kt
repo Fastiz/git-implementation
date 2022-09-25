@@ -33,8 +33,6 @@ class CreateNewTreeTest {
         commitRepository = mockk()
         headRepository = mockk()
         createNewTree = CreateNewTree(
-            commitRepository = commitRepository,
-            headRepository = headRepository,
             treeRepository = treeRepository,
             logger = logger,
         )
@@ -52,8 +50,6 @@ class CreateNewTreeTest {
         val currentTree = buildTree(entries = emptyList())
         val resultTreeId = TreeId.from("result-tree-id")
 
-        val input = CreateFileBlobsIfNotExistOutput(fileBlobList = fileBlobList)
-
         every { headRepository.getHead() } returns currentCommitId
         every { commitRepository.get(currentCommitId) } returns currentCommit
         every { treeRepository.get(currentCommitTreeId) } returns currentTree
@@ -61,7 +57,7 @@ class CreateNewTreeTest {
         val treeInputSlot = slot<TreeInput>()
         every { treeRepository.create(capture(treeInputSlot)) } returns resultTreeId
 
-        val result = createNewTree.execute(input)
+        val result = createNewTree.execute(fileBlobList)
 
         val expectedTreeInput = TreeInput(
             entries = listOf(
