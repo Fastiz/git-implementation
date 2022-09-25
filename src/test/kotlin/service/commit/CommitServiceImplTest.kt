@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import logger.TestLogger
 import model.CommitId
+import model.FileBlob
 import model.TreeId
 import org.junit.Before
 import org.junit.Test
@@ -47,6 +48,7 @@ class CommitServiceImplTest {
             commitId = CommitId.from("commit-id")
         )
 
+        every { indexRepository.get() } returns emptySequence()
         every { createNewTree.execute(any()) } returns createNewTreeOutput
         every { createCommit.execute(any()) } returns createCommitOutput
         every { moveHead.execute(any()) } returns CommitId.from("commit-id")
