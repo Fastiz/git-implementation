@@ -1,7 +1,16 @@
 package service.branch
 
-class BranchServiceImpl : BranchService {
+import repository.head.HeadRepository
+import repository.ref.RefRepository
+import java.lang.IllegalArgumentException
+
+class BranchServiceImpl(
+    private val headRepository: HeadRepository,
+    private val refRepository: RefRepository,
+) : BranchService {
     override fun run(branchName: String) {
-        TODO("Not yet implemented")
+        val current = headRepository.getHead() ?: throw IllegalArgumentException("HEAD is not pointing to a commit")
+
+        refRepository.create(branchName, current)
     }
 }

@@ -92,7 +92,10 @@ object ServiceModule {
         }
 
         single<BranchService> {
-            BranchServiceImpl()
+            BranchServiceImpl(
+                headRepository = get(),
+                refRepository = get(),
+            )
         }
     }
 }
