@@ -1,6 +1,9 @@
 package service
 
 import org.koin.dsl.module
+import repository.index.IndexRepositoryImpl
+import service.add.AddService
+import service.add.AddServiceImpl
 import service.checkout.CheckoutService
 import service.checkout.CheckoutServiceImpl
 import service.commit.CommitService
@@ -17,6 +20,12 @@ import service.log.LogServiceImpl
 
 object ServiceModule {
     val module = module {
+        single<AddService> {
+            AddServiceImpl(
+                IndexRepositoryImpl()
+            )
+        }
+
         single {
             CreateFileBlobsIfNotExist(
                 fileBlobRepository = get(),

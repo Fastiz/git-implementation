@@ -1,7 +1,11 @@
 package service.add
 
-class AddServiceImpl : AddService {
+import repository.index.IndexRepository
+
+class AddServiceImpl(
+    private val indexRepository: IndexRepository
+) : AddService {
     override fun run(stagedFiles: List<String>) {
-        TODO("Not yet implemented")
+        indexRepository.add(stagedFiles)
     }
 }

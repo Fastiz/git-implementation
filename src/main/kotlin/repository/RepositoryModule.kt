@@ -7,6 +7,8 @@ import repository.commit.CommitRepository
 import repository.commit.CommitRepositoryImpl
 import repository.head.HeadRepository
 import repository.head.HeadRepositoryImpl
+import repository.index.IndexRepository
+import repository.index.IndexRepositoryImpl
 import repository.tree.TreeRepository
 import repository.tree.TreeRepositoryImpl
 import repository.workingdirectory.WorkingDirectoryRepository
@@ -38,6 +40,9 @@ object RepositoryModule {
             WorkingDirectoryRepositoryImpl(
                 fileDao = get()
             )
+        }
+        single<IndexRepository> {
+            IndexRepositoryImpl()
         }
     }
 }
