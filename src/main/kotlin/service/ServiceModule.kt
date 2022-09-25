@@ -3,6 +3,8 @@ package service
 import org.koin.dsl.module
 import service.add.AddService
 import service.add.AddServiceImpl
+import service.branch.BranchService
+import service.branch.BranchServiceImpl
 import service.checkout.CheckoutService
 import service.checkout.CheckoutServiceImpl
 import service.commit.CommitService
@@ -87,6 +89,10 @@ object ServiceModule {
                 commitHistoryFactory = get(),
                 logger = get(),
             )
+        }
+
+        single<BranchService> {
+            BranchServiceImpl()
         }
     }
 }

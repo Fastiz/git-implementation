@@ -10,4 +10,6 @@ interface CommandRunner {
     fun log()
 
     fun add(args: List<String>)
+
+    fun branch(args: List<String>)
 }

@@ -11,6 +11,7 @@ object ControllerModule {
                 checkoutService = get(),
                 logService = get(),
                 addService = get(),
+                branchService = get(),
             )
         }
     }

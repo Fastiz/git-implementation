@@ -81,4 +81,15 @@ class MainTest {
 
         verify { commandRunner.add(args) }
     }
+
+    @Test
+    fun `call run branch`() {
+        val args = listOf("branch", "branch-name")
+
+        every { commandRunner.branch(any()) } just runs
+
+        main.run(args)
+
+        verify { commandRunner.branch(args) }
+    }
 }

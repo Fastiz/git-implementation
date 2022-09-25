@@ -8,6 +8,7 @@ import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import service.add.AddService
+import service.branch.BranchService
 import service.checkout.CheckoutService
 import service.commit.CommitService
 import service.init.InitService
@@ -19,6 +20,7 @@ class CommandRunnerImplTest {
     private lateinit var checkoutService: CheckoutService
     private lateinit var logService: LogService
     private lateinit var addService: AddService
+    private lateinit var branchService: BranchService
 
     private lateinit var commandRunnerImpl: CommandRunnerImpl
 
@@ -29,6 +31,7 @@ class CommandRunnerImplTest {
         checkoutService = mockk()
         logService = mockk()
         addService = mockk()
+        branchService = mockk()
 
         commandRunnerImpl = CommandRunnerImpl(
             commitService = commitService,
@@ -36,6 +39,7 @@ class CommandRunnerImplTest {
             checkoutService = checkoutService,
             logService = logService,
             addService = addService,
+            branchService = branchService,
         )
     }
 
@@ -84,5 +88,16 @@ class CommandRunnerImplTest {
         commandRunnerImpl.add(arguments)
 
         verify { addService.run(listOf("file.kt")) }
+    }
+
+    @Test
+    fun `calls branch service`() {
+        val arguments = listOf("branch", "branch-name")
+
+        every { branchService.run(any()) } just runs
+
+        commandRunnerImpl.branch(arguments)
+
+        verify { branchService.run("branch-name") }
     }
 }
