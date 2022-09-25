@@ -16,6 +16,14 @@ class RefRepositoryImpl(
     }
 
     override fun get(refName: String): CommitId? {
-        TODO("Not yet implemented")
+        val fullPath = refsHeads.extend(refName)
+        if (fileDao.doesFileExist(fullPath)) {
+            val readCommit = fileDao.readFile(fullPath) {
+                readLine()
+            } ?: throw IllegalStateException("Ref exists but is empty")
+
+            return CommitId.from(readCommit)
+        }
+        return null
     }
 }
