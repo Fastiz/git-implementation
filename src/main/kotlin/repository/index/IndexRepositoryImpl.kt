@@ -3,6 +3,7 @@ package repository.index
 import dao.files.FileDao
 import model.File
 import model.FileBlob
+import repository.index.IndexLineFormatter.fileBlobToLine
 import repository.index.IndexLineFormatter.parseLineToBlob
 
 class IndexRepositoryImpl(
@@ -22,11 +23,12 @@ class IndexRepositoryImpl(
 
         val result = (indexedBlobsMap + stagedBlobsMap)
             .toList()
-            .sortedBy { it.first.value }
+            .map { it.second }
+            .sortedBy { it.id.value }
 
         fileDao.writeFile(File.INDEX.path) {
             result
-                .map { "${it.first} ${it.second.path}" }
+                .map(::fileBlobToLine)
                 .forEach(::writeLine)
         }
     }

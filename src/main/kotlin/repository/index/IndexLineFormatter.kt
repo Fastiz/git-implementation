@@ -11,4 +11,8 @@ object IndexLineFormatter {
 
         return FileBlob(id = FileBlobId.from(id), path = path)
     }
+
+    fun fileBlobToLine(blob: FileBlob): String {
+        return "${blob.id} ${blob.path}"
+    }
 }
