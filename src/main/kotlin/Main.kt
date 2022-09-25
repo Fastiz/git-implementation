@@ -59,6 +59,7 @@ class Main(private val commandRunner: CommandRunner) {
             "init" -> commandRunner.init()
             "checkout" -> commandRunner.checkout(args)
             "log" -> commandRunner.log()
+            "add" -> commandRunner.add(args)
             else -> throw Exception("There is not command named $commandName")
         }
     }

@@ -30,4 +30,8 @@ class CommandRunnerImpl(
     override fun log() {
         logService.run()
     }
+
+    override fun add(args: List<String>) {
+        TODO("Not yet implemented")
+    }
 }

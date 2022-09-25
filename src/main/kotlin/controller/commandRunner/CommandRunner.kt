@@ -8,4 +8,6 @@ interface CommandRunner {
     fun checkout(args: List<String>)
 
     fun log()
+
+    fun add(args: List<String>)
 }
