@@ -8,13 +8,6 @@ class RefRepositoryImpl(
     private val refsHeads: RefsHeads,
     private val fileDao: FileDao
 ) : RefRepository {
-    override fun create(refName: String, commitId: CommitId) {
-        val fullPath = refsHeads.extend(refName)
-        fileDao.writeFile(fullPath) {
-            writeLine(commitId.value)
-        }
-    }
-
     override fun get(refName: String): CommitId? {
         val fullPath = refsHeads.extend(refName)
         if (fileDao.doesFileExist(fullPath)) {
@@ -25,5 +18,17 @@ class RefRepositoryImpl(
             return CommitId.from(readCommit)
         }
         return null
+    }
+
+    override fun set(refName: String, commitId: CommitId) {
+        val fullPath = refsHeads.extend(refName)
+
+        if (!fileDao.doesFileExist(fullPath)) {
+            fileDao.createFile(fullPath)
+        }
+
+        fileDao.writeFile(fullPath) {
+            writeLine(commitId.value)
+        }
     }
 }

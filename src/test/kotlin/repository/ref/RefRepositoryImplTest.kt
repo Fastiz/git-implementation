@@ -11,8 +11,6 @@ import model.CommitId
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.jupiter.api.Assertions.*
-
 class RefRepositoryImplTest {
     private val refsHeads = buildRefsHeads()
     private lateinit var fileDao: FileDao
@@ -30,10 +28,11 @@ class RefRepositoryImplTest {
     }
 
     @Test
-    fun `create - calls file dao`() {
+    fun `set - calls file dao`() {
+        every { fileDao.doesFileExist(any()) } returns true
         every { fileDao.writeFile(any(), any()) } just runs
 
-        refRepository.create("ref-name", CommitId.from("commit-id"))
+        refRepository.set("ref-name", CommitId.from("commit-id"))
 
         verify { fileDao.writeFile(eq(refsHeads.extend("ref-name")), any()) }
     }

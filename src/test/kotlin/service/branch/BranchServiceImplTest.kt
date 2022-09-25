@@ -34,10 +34,10 @@ internal class BranchServiceImplTest {
         val commitId = CommitId.from("current-commit-id")
 
         every { headRepository.getHead() } returns commitId
-        every { refRepository.create(any(), any()) } just runs
+        every { refRepository.set(any(), any()) } just runs
 
         branchServiceImpl.run("branch-name")
 
-        verify { refRepository.create("branch-name", commitId) }
+        verify { refRepository.set("branch-name", commitId) }
     }
 }

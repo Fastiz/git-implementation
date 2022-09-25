@@ -11,6 +11,6 @@ class BranchServiceImpl(
     override fun run(branchName: String) {
         val current = headRepository.getHead() ?: throw IllegalArgumentException("HEAD is not pointing to a commit")
 
-        refRepository.create(branchName, current)
+        refRepository.set(branchName, current)
     }
 }

@@ -10,8 +10,10 @@ import model.CommitId
 import org.junit.Before
 import org.junit.Test
 import repository.head.HeadRepository
+import repository.ref.RefRepository
 
 class MoveHeadTest {
+    private lateinit var refRepository: RefRepository
     private lateinit var headRepository: HeadRepository
     private var logger = TestLogger()
 
@@ -19,8 +21,13 @@ class MoveHeadTest {
 
     @Before
     fun before() {
+        refRepository = mockk()
         headRepository = mockk()
-        moveHead = MoveHead(headRepository, logger)
+        moveHead = MoveHead(
+            refRepository = refRepository,
+            headRepository = headRepository,
+            logger = logger
+        )
     }
 
     @Test
@@ -28,9 +35,10 @@ class MoveHeadTest {
         val input = CreateCommitOutput(commitId = CommitId.from("commit-id"))
 
         every { headRepository.setHead(any()) } just runs
+        every { headRepository.getHead() } returns null
 
         moveHead.execute(input)
 
-        verify { headRepository.setHead(CommitId.from("commit-id")) }
+        verify { headRepository.setHead("commit-id") }
     }
 }

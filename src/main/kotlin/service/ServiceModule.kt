@@ -44,6 +44,7 @@ object ServiceModule {
         }
         single {
             MoveHead(
+                refRepository = get(),
                 headRepository = get(),
                 logger = get(),
             )
@@ -60,6 +61,7 @@ object ServiceModule {
 
         single<CheckoutService> {
             CheckoutServiceImpl(
+                refRepository = get(),
                 workingDirectoryRepository = get(),
                 headRepository = get(),
                 treeRepository = get(),
@@ -70,6 +72,8 @@ object ServiceModule {
 
         single<InitService> {
             InitServiceImpl(
+                refsHeads = get(),
+                refs = get(),
                 objects = get(),
                 head = get(),
                 index = get(),

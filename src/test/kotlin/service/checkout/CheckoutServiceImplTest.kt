@@ -65,13 +65,13 @@ class CheckoutServiceImplTest {
         every { commitRepository.get(any()) } returns buildCommit(id = commitId)
         every { treeRepository.get(any()) } returns tree
         every { workingDirectoryRepository.bringBlob(any()) } just runs
-        every { headRepository.setHead(any()) } just runs
+        every { headRepository.setDetachedHead(any()) } just runs
         every { indexRepository.set(any()) } just runs
 
         checkoutServiceImpl.run("commit-id")
 
         verify { workingDirectoryRepository.clear() }
-        verify { headRepository.setHead(commitId) }
+        verify { headRepository.setDetachedHead(commitId) }
         verify { workingDirectoryRepository.bringBlob(blob1) }
         verify { workingDirectoryRepository.bringBlob(blob2) }
         verify { indexRepository.set(any()) }

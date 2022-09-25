@@ -4,6 +4,8 @@ import dao.files.FileDao
 import directory.DataProvider.buildHead
 import directory.DataProvider.buildIndex
 import directory.DataProvider.buildObjects
+import directory.DataProvider.buildRefs
+import directory.DataProvider.buildRefsHeads
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
@@ -16,6 +18,8 @@ class InitServiceImplTest {
     private val objects = buildObjects()
     private val head = buildHead()
     private val index = buildIndex()
+    private val refs = buildRefs()
+    private val refsHeads = buildRefsHeads()
     private lateinit var fileDao: FileDao
     private lateinit var initServiceImpl: InitServiceImpl
 
@@ -23,6 +27,8 @@ class InitServiceImplTest {
     fun before() {
         fileDao = mockk()
         initServiceImpl = InitServiceImpl(
+            refs = refs,
+            refsHeads = refsHeads,
             objects = objects,
             head = head,
             index = index,
