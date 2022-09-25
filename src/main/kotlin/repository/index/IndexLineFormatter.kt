@@ -13,6 +13,6 @@ object IndexLineFormatter {
     }
 
     fun fileBlobToLine(blob: FileBlob): String {
-        return "${blob.id} ${blob.path}"
+        return "${blob.id.value} ${blob.path}"
     }
 }

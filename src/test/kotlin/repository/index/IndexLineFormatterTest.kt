@@ -17,4 +17,15 @@ internal class IndexLineFormatterTest {
 
         assertEquals(expectedResult, result)
     }
+
+    @Test
+    fun fileBlobToLine() {
+        val fileBlob = FileBlob(id = FileBlobId.from("file-id"), path = "file-path")
+
+        val result = IndexLineFormatter.fileBlobToLine(fileBlob)
+
+        val expectedResult = "file-id file-path"
+
+        assertEquals(expectedResult, result)
+    }
 }
